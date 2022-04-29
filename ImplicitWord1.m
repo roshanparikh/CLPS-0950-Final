@@ -114,7 +114,13 @@ numTrials = 5
 vbl = Screen('Flip', window);
 for trial = 1:numTrials
 
- theWord = randi(length(wordList), 1)
+ for k = 1 : length(wordList)
+	% Extract the numerical array from the cell.
+	thisCellsContents = wordList{k};
+	% Get a random index from that array
+	% Get the value from the array.
+   theWords = wordList{randi(length(wordList))}
+ end
 
 Screen('DrawDots', window, [dotXpos dotYpos], dotSizePix, dotColor, [], 2);
 
@@ -129,7 +135,7 @@ Screen('DrawDots', window, [dotXpos dotYpos], dotSizePix, dotColor, [], 2);
 % key) to terminate the demo. For help see: help KbStrokeWait
 
 Screen('TextSize', window, 70);
-DrawFormattedText (window, 'red', screenXpixels * 0.25, 'center', [1 0 0]);
+DrawFormattedText (window, char(theWords), (screenXpixels * 0.25), 'center', [1 0 0]);
 
 % Flip to the screen
   vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
