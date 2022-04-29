@@ -10,6 +10,6 @@ function [outputStr]= randomizeStr(inputStr)
         inputLength = inputLength - 1;
         outIndex = outIndex + 1;
     end
-    outputStr = char(outputStr)
+    outputStr = char(outputStr);
 end
 
