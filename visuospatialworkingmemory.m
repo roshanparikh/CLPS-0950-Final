@@ -3,10 +3,6 @@
 %% Working Memory Trial 1 %%
 
 %Tests location of the Gabor shown two trials ago%
-
-
-
-
 %This % Clear the workspace
 close all;
 clear;
@@ -76,16 +72,16 @@ gabortex = CreateProceduralGabor(window, gaborDimPix, gaborDimPix, [],...
 % pixels. We therefore have to determine these two locations in screen
 % coordianates.
 pixShift = 250;
-xPos = [xCenter xCenter xCenter-pixShift xCenter-pixShift];
-yPos = [yCenter - pixShift yCenter + pixShift yCenter yCenter];
+xPos = [xCenter xCenter xCenter xCenter];
+yPos = [yCenter - pixShift yCenter + pixShift yCenter yCenter yCenter - pixShift yCenter + pixShift yCenter yCenter];
 
 % Count how many Gabors there are (4 for this demo)
 nGabors = numel(xPos);
 
 % Make the destination rectangles for  the Gabors in the array i.e.
 % rectangles the size of our Gabors cenetred above an below fixation.
-baseRect = [0 0 gaborDimPix gaborDimPix];
-allRects = nan(4, nGabors);
+baseRect = [0 0 gaborDimPix gaborDimPix 0 0 gaborDimPix gaborDimPix ];
+allRects = nan(8, nGabors);
 for i = 1:nGabors
     allRects(:, i) = CenterRectOnPointd(baseRect, xPos(i), yPos(i));
 end
@@ -96,14 +92,11 @@ propertiesMat = repmat([NaN, freq, sigma, contrast,...
     aspectRatio, 0, 0, 0], nGabors, 1);
 propertiesMat(:, 1) = phaseLine';
 
-% Set the orientations for the methods of constant stimuli. We will center
-% the range around zero (vertical) and give it a range of 1.8 degress, this
-% will mean we test between -(1.8 / 2) and +(1.8 / 2). Finally we will test
-% seven points linearly spaced between these extremes.
+% Set the locations for the methods of constant stimuli. We will center
+% the range around zero.
 baseOrientation = 0;
-orRange = 1.9;
 numSteps = 7;
-stimValues = linspace(-orRange / 2, orRange / 2, numSteps) + baseOrientation;
+stimValues = baseOrientation;
 
 % Now we set the number of times we want to do each condition, then make a
 % full condition vector and then shuffle it. This will randomly order the
@@ -161,7 +154,7 @@ for trial = 1:numTrials
 
     % Get the Gabor angle for this trial (negative values are to the right
     % and positive to the left)
-    theAngle = condVector(trial);
+    theOrientation = condVector(trial);
 
     % Randomise the side which the Gabor is displayed on
     side = round(rand) + 1;
@@ -203,7 +196,7 @@ for trial = 1:numTrials
         Screen('BlendFunction', window, 'GL_ONE', 'GL_ZERO');
 
         % Draw the Gabor
-        Screen('DrawTextures', window, gabortex, [], thisDstRect, theAngle, [], [], [], [],...
+        Screen('DrawTextures', window, gabortex, [], thisDstRect, theOrientation, [], [], [], [],...
             kPsychDontDoRotation, propertiesMat');
 
         % Change the blend function to draw an antialiased fixation point
@@ -255,11 +248,11 @@ for trial = 1:numTrials
     end
 
     % Record the response
-    respVector(stimValues == theAngle) = respVector(stimValues == theAngle)...
+    respVector(stimValues == theOrientation) = respVector(stimValues == theOrientation)...
         + response;
 
     % Add one to the counter for that stimulus
-    countVector(stimValues == theAngle) = countVector(stimValues == theAngle) + 1;
+    countVector(stimValues == theOrientation) = countVector(stimValues == theOrientation) + 1;
 
 end
 
@@ -268,8 +261,8 @@ data = [stimValues; respVector; countVector]';
 figure;
 plot(data(:, 1), data(:, 2) ./ data(:, 3), 'ro-', 'MarkerFaceColor', 'r');
 axis([min(data(:, 1)) max(data(:, 1)) 0 1]);
-xlabel('Angle of Orientation (Degrees)');
-ylabel('Performance');
+xlabel('Location');
+ylabel('Accuracy');
 title('Psychometric function');
 
 % Clean up
