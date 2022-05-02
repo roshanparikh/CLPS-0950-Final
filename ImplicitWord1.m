@@ -55,6 +55,13 @@ topPriorityLevel = MaxPriority(window);
 % For help see: Screen BlendFunction?
 % Also see: Chapter 6 of the OpenGL programming guide
 Screen('BlendFunction', window, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+%----------------------------------------------------------------------
+%                       Keyboard Presses
+%----------------------------------------------------------------------
+
+rightKey = KbName('RightArrow');
+escapeKey = KbName('ESCAPE');
+leftKey = KbName('LeftArrow');
 
 %----------------------------------------------------------------------
 %                       Timing Information
@@ -85,9 +92,7 @@ dotXpos = xCenter
 dotYpos = yCenter
 % Dot size in pixels
 dotSizePix = 10;
-
-wordList = {'avocado', 'lemonade', 'car', 'boat'};%Defining the words to be used
-rgbColors = [1 1 1; 1 1 1; 1 1 1; 1 1 1];%defining the color RGB color code for each of the 4 words
+scrambledWords = cell(1,25);
 
 % Make the matrix which will determine our condition combinations
 condMatrixBase = [sort(repmat([1 2 3 4], 1, 3)); repmat([1 2 3 4], 1, 3)];% This matrix is 12 columns wide, allowing us to record the results of each trial
@@ -111,16 +116,39 @@ condMatrixShuffled = condMatrix(:, shuffler);
 % brackets) and press enter. Here we used good antialiasing to get nice
 % smooth edges
 numTrials = 5
+wordsToScramble = cell(1, 25);
+wordsToScramble{1,1} = ['k' 'n' 'i' 'f' 'e'];
+wordsToScramble{1,2} = ['a' 'r' 't' 'i' 's' 't'];
+wordsToScramble{1,3} = ['p' 'a' 'i' 'n' 't' 'e' 'r'];
+wordsToScramble{1,4} = ['c' 'h' 'e' 'f'];
+wordsToScramble{1,5} = ['v' 'e' 'r' 'd' 'a' 'n' 't'];
+wordsToScramble{1,6} = ['c' 'r' 'e' 'a' 't' 'i' 'o' 'n'];
+wordsToScramble{1,7} = ['b' 'u' 'i' 'l' 'd' 'i' 'n' 'g'];
+wordsToScramble{1,8} = ['t' 'e' 'a'];
+wordsToScramble{1,9} = ['b' 'u' 'b' 'b' 'l' 'e' 's'];
+wordsToScramble{1,10} = ['c' 'o' 'f' 'f' 'e' 'e'];
+wordsToScramble{1,11} = ['s' 'u' 's' 'h' 'i'];
+wordsToScramble{1,12} = ['b' 'o' 'o' 'k' 's' 't' 'o' 'r' 'e'];
+wordsToScramble{1,13} = ['o' 'f' 'f' 'i' 'c' 'e'];
+wordsToScramble{1,14} = ['f' 'l' 'a' 'g'];
+wordsToScramble{1,15} = ['n' 'a' 't' 'i' 'o' 'n'];
+wordsToScramble{1,16} = ['l' 'a' 'k' 'e'];
+wordsToScramble{1,17} = ['p' 'o' 'n' 'd'];
+wordsToScramble{1,18} = ['f' 'a' 'm' 'i' 'l' 'y'];
+wordsToScramble{1,19} = ['m' 'o' 't' 'h' 'e' 'r'];
+wordsToScramble{1,20} = ['o' 'k' 'r' 'a'];
+wordsToScramble{1,21} = ['b' 'a' 'n' 'k'];
+wordsToScramble{1,22} = ['k' 'a' 'b' 'o' 'b'];
+wordsToScramble{1,23} = ['y' 'e' 'l' 'l' 'o' 'w'];
+wordsToScramble{1,24} = ['v' 'e' 'g' 'a' 'n'];
+wordsToScramble{1,25} = ['c' 'l' 'e' 'm' 'e' 'n' 't' 'i' 'n' 'e'];
 vbl = Screen('Flip', window);
-for trial = 1:numTrials
 
- for k = 1 : length(wordList)
-	% Extract the numerical array from the cell.
-	thisCellsContents = wordList{k};
-	% Get a random index from that array
-	% Get the value from the array.
-   theWords = wordList{randi(length(wordList))}
- end
+for trial = 1:numTrials
+for i = 1:25
+    inputScramble = char(wordsToScramble(1,i));
+    outputScramble = randomizeStr(inputScramble);
+    scrambledWords{1,i} = outputScramble;
 
 Screen('DrawDots', window, [dotXpos dotYpos], dotSizePix, dotColor, [], 2);
 
@@ -134,13 +162,13 @@ Screen('DrawDots', window, [dotXpos dotYpos], dotSizePix, dotColor, [], 2);
 % Now we have drawn to the screen we wait for a keyboard button press (any
 % key) to terminate the demo. For help see: help KbStrokeWait
 
-Screen('TextSize', window, 70);
-DrawFormattedText (window, char(theWords), (screenXpixels * 0.25), 'center', [1 0 0]);
+Screen('TextSize', window, 50);
+DrawFormattedText (window, char((outputScramble)), (screenXpixels * 0.15), 'center', [1 0 0]);
 
 % Flip to the screen
   vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
 KbStrokeWait;
-
+end
 end
 % Now we have drawn to the screen we wait for a keyboard button press (any
 % key) to terminate the demo
