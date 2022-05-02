@@ -1,14 +1,4 @@
-%% STROOP TEST LEVEL 1 %%
-
-%Colors Being Used
-
-% Tasks
-% 1. list of colors
-% 2. associated color values
-% 3. display 
-% 4. collect user input 
-% 5. store user input in an array for # of trials
-% 6. display results
+%%  LEVEL 1 %%
 
 
 % Clearing the workspace from color blind test before start of the level
@@ -110,6 +100,7 @@ condMatrix = repmat(condMatrixBase, 1, trialsPerCondition);
 
 % To randomize the conditions so that a randomly chosen word is presented in a
 % randomly chosen color
+
 shuffler = Shuffle(1:numTrials);
 condMatrixShuffled = condMatrix(:, shuffler);
 
@@ -135,7 +126,7 @@ for trial = 1:numTrials
 
     % Word and color number
     wordNum = condMatrixShuffled(1, trial);
-    colorNum = condMatrixShuffled(2, trial);
+    colorNum = condMatrixShuffled(1, trial);
 
     % The color word and the color it is drawn in
     theWord = wordList(wordNum);
