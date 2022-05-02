@@ -1,3 +1,12 @@
+
+
+%% Working Memory Trial 1 %%
+
+%Tests location of the Gabor shown two trials ago%
+
+
+
+
 %This % Clear the workspace
 close all;
 clear;
@@ -44,14 +53,14 @@ topPriorityLevel = MaxPriority(window);
 %--------------------
 
 % Dimension of the region where will draw the Gabor in pixels
-gaborDimPix = 300;
+gaborDimPix = 200;
 
 % Sigma of Gaussian
 sigma = gaborDimPix / 7;
 
 % Obvious Parameters
 orientation = 90;
-contrast = 0.5;
+contrast = 1;
 aspectRatio = 1.0;
 
 % Spatial Frequency (Cycles Per Pixel)
@@ -61,16 +70,16 @@ freq = numCycles / gaborDimPix;
 
 % Build a procedural gabor texture
 gabortex = CreateProceduralGabor(window, gaborDimPix, gaborDimPix, [],...
-    [0.5 0.5 0.5 0.0], 1, 0.5);
+    [1 0.5 0.5 0.0], 1, 0.5);
 
 % We will be displaying our Gabors either above or below fixation by 250
 % pixels. We therefore have to determine these two locations in screen
 % coordianates.
 pixShift = 250;
-xPos = [xCenter xCenter];
-yPos = [yCenter - pixShift yCenter + pixShift];
+xPos = [xCenter xCenter xCenter-pixShift xCenter-pixShift];
+yPos = [yCenter - pixShift yCenter + pixShift yCenter yCenter];
 
-% Count how many Gabors there are (two for this demo)
+% Count how many Gabors there are (4 for this demo)
 nGabors = numel(xPos);
 
 % Make the destination rectangles for  the Gabors in the array i.e.
