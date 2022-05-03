@@ -138,11 +138,11 @@ for trial = 1:numTrials
     % If this is the first trial we present a start screen and wait for a
     % key-press
     if trial == 1
-        DrawFormattedText(window, 'Welcome to the Stroop Test Level 1! \n\n Press any key to see instructions!',...
+        DrawFormattedText(window, 'Welcome to Level One of our Working Memory Task! \n\n Press any key to see instructions!',...
             'center', 'center', black); %Welcome screen
         Screen('Flip', window);
         KbStrokeWait;
-        DrawFormattedText(window, 'A word will appear on your screen \n\n and will be colored either red, yellow, green or blue.\n\n If green, press the g key! \n\n If red, press the r key! \n\n If yellow, press the y key!, \n\n If blue, press the b key! \n\n Press any key to start!! \n\n  You can quit anytime by pressing ESC!','center', 'center', black)
+        DrawFormattedText(window, 'You will be shown a succession of words \n\n and are tasked with remembering what color EVERY OTHER word is printed in.\n\n If the word is printed in green, press the g key! \n\n If red, press the r key! \n\n If yellow, press the y key!, \n\n If blue, press the b key! \n\n Press any key to start!! \n\n  You can quit anytime by pressing ESC!','center', 'center', black)
         Screen('Flip', window);%Task directions text
         KbStrokeWait;
 
