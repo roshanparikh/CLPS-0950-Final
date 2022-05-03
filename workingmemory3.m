@@ -1,4 +1,4 @@
-%% STROOP TEST LEVEL 1 %%
+%% WORKING MEMORY LEVEL 3 %%
 
 %Colors Being Used
 
@@ -147,11 +147,11 @@ for trial = 1:numTrials
     % If this is the first trial we present a start screen and wait for a
     % key-press
     if trial == 1
-        DrawFormattedText(window, 'Welcome to Level Three of our Working Memory Task! \n\n Press any key to see instructions!',...
+        DrawFormattedText(window, 'Welcome to Level Three of Our N-Back Memory Task! \n\n Press any key to see instructions!',...
             'center', 'center', black); %Welcome screen
         Screen('Flip', window);
         KbStrokeWait;
-        DrawFormattedText(window, 'Similar to Level One, you will be shown a succession of words \n\n and are tasked with remembering what color EVERY OTHER word is printed in.\n\n If the word is printed in green, press the g key! \n\n If red, press the r key! \n\n If yellow, press the y key!, \n\n If blue, press the b key! \n\n Press any key to start!! \n\n  You can quit anytime by pressing ESC!','center', 'center', black)
+        DrawFormattedText(window, 'A series of words will flash on the screen. \n\n Again, you will be tasked with inputting \n\n the COLOR of the word which was displayed TWO PRESENTATIONS prior. \n\n If the word is printed in GREEN, press the g key! \n\n If in RED, press the r key! \n\n If in YELLOW, press the y key!, \n\n If in BLUE, press the b key! \n\n Press any key to start!! \n\n  You can quit anytime by pressing ESC!','center', 'center', black)
         Screen('Flip', window);%Task directions text
         KbStrokeWait;
 

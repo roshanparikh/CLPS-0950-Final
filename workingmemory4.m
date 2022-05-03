@@ -1,6 +1,16 @@
-%%  WORKING MEMORY LEVEL 1 %%
+%% WORKING MEMORY LEVEL 4 %%
 
-% This level will have matching colors and words
+%Colors Being Used
+
+% Tasks
+% 1. list of colors
+% 2. associated color values
+% 3. display 
+% 4. collect user input 
+% 5. store user input in an array for # of trials
+% 6. display results
+
+
 % Clearing the workspace from color blind test before start of the level
 close all;
 clear;
@@ -100,7 +110,6 @@ condMatrix = repmat(condMatrixBase, 1, trialsPerCondition);
 
 % To randomize the conditions so that a randomly chosen word is presented in a
 % randomly chosen color
-
 shuffler = Shuffle(1:numTrials);
 condMatrixShuffled = condMatrix(:, shuffler);
 
@@ -114,7 +123,7 @@ condMatrixShuffled = condMatrix(:, shuffler);
 % row 2 = color of word; 
 % row 3 = key which was pressed in response to stimulus; 
 % row 4 = response time 
-respMat = nan(5, numTrials);
+respMat = nan(4, numTrials);
 
 
 %----------------------------------------------------------------------
@@ -126,7 +135,7 @@ for trial = 1:numTrials
 
     % Word and color number
     wordNum = condMatrixShuffled(1, trial);
-    colorNum = condMatrixShuffled(1, trial);
+    colorNum = condMatrixShuffled(2, trial);
 
     % The color word and the color it is drawn in
     theWord = wordList(wordNum);
@@ -138,11 +147,11 @@ for trial = 1:numTrials
     % If this is the first trial we present a start screen and wait for a
     % key-press
     if trial == 1
-        DrawFormattedText(window, 'Welcome to Level One of Our N-Back Memory Task! ! \n\n Press any key to see instructions!',...
+        DrawFormattedText(window, 'Welcome to Level Four of Our N-Back Memory Task! \n\n Press any key to see instructions!',...
             'center', 'center', black); %Welcome screen
         Screen('Flip', window);
         KbStrokeWait;
-        DrawFormattedText(window, 'A series of words will flash on the screen. \n\n You will be tasked with inputting \n\n the COLOR of the word which was displayed TWO PRESENTATIONS prior. \n\n If the word is printed in GREEN, press the g key! \n\n If in RED, press the r key! \n\n If in YELLOW, press the y key!, \n\n If in BLUE, press the b key! \n\n Press any key to start!! \n\n  You can quit anytime by pressing ESC!','center', 'center', black)
+        DrawFormattedText(window, 'A series of words will flash on the screen. \n\n Again, you will be tasked with inputting \n\n the WORD which was displayed TWO PRESENTATIONS prior. \n\n If the word is "green", press the g key! \n\n If "red", press the r key! \n\n If "yellow", press the y key!, \n\n If "blue", press the b key! \n\n Press any key to start!! \n\n  You can quit anytime by pressing ESC!','center', 'center', black)
         Screen('Flip', window);%Task directions text
         KbStrokeWait;
 
@@ -194,6 +203,7 @@ for i = 1:numSquares
     allRects(:, i) = CenterRectOnPointd(baseRect, squareXpos(i), yCenter);
 end
 
+
 %Drawing Rectangles and Labeling each with correct labels at specified
 %height
 Screen('FillRect', window, allColors, allRects);
@@ -205,70 +215,6 @@ Screen('Flip', window);
 % Wait for a key press
 KbStrokeWait;
     end
-   
-%----------------------------------------------------------------------
-%                       For first two trials 
-%----------------------------------------------------------------------
-
-
- % Flip to new screen, begin with central dot to prime spot where words
-    % will appear
-    Screen('DrawDots', window, [xCenter; yCenter], 10, black, [], 2);
-    vbl = Screen('Flip', window);
-
-   %Present isi interval, but subtract 1 interval for fixation dot 
-    for frame = 1:isiTimeFrames - 1
-
- % Draw the fixation point at screen center 
- Screen('DrawDots', window, [xCenter; yCenter], 10, black, [], 2);
-
-        % Flip to the screen
-        vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
-        % Flip to the screen
-Screen('Flip', window);
-
-         % create the word "Color" in a randomly chose color 
-          KbStrokeWait
-        DrawFormattedText(window, char(theWord), 'center', 'center', theColor);
-    end
-   
-
-    end
-    
-    if trial == 2
-        % Flip to new screen, begin with central dot to prime spot where words
-    % will appear
-    Screen('DrawDots', window, [xCenter; yCenter], 10, black, [], 2);
-    vbl = Screen('Flip', window);
-
-   %Present isi interval, but subtract 1 interval for fixation dot 
-    for frame = 1:isiTimeFrames - 1
-
- % Draw the fixation point at screen center 
- Screen('DrawDots', window, [xCenter; yCenter], 10, black, [], 2);
-
- % Flip to the screen
-        vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
-    end
- % Flip to new screen, begin with central dot to prime spot where words
-    % will appear
-    Screen('DrawDots', window, [xCenter; yCenter], 10, black, [], 2);
-    vbl = Screen('Flip', window);
-
-   %Present isi interval, but subtract 1 interval for fixation dot 
-    for frame = 1:isiTimeFrames - 1
-
- % Draw the fixation point at screen center 
- Screen('DrawDots', window, [xCenter; yCenter], 10, black, [], 2);
-
-        % Flip to the screen
-        vbl = Screen('Flip', window, vbl + (waitframes - 0.5) * ifi);
-         % create the word "Color" in a randomly chose color 
-          KbStrokeWait
-        DrawFormattedText(window, char(theWord), 'center', 'center', theColor);
-    end
-
-  
 %----------------------------------------------------------------------
 %                       ACTUAL TEST!! : 
 %----------------------------------------------------------------------
@@ -328,8 +274,7 @@ Screen('Flip', window);
     respMat(3, trial) = response;%number corrosponding to color chosen by test taker (1-4) 
     respMat(4, trial) = rt;%response time in seconds 
 
-    
- if colorNum(trial) == response(trial-1)
+ if colorNum == response
     respMat(5,trial) = 1
  else
      respMat(5,trial)= 0
@@ -374,4 +319,3 @@ KbStrokeWait;
 
 %clear, prepare for next level 
 sca;
-
