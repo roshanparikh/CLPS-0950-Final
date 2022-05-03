@@ -260,6 +260,7 @@ KbStrokeWait;
         elseif keyCode(greenKey)%G key corrosponds to color 2 (green)
             response= 2;
             respToBeMade = false;
+       
         end
 
      % Change screen
@@ -276,6 +277,8 @@ KbStrokeWait;
 
  if colorNum == response
     respMat(5,trial) = 1
+ elseif response == 5
+     respMat(5,trial) = 1
  else
      respMat(5,trial)= 0
  end
