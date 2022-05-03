@@ -73,7 +73,7 @@ isiTimeFrames = round(isiTimeSecs / ifi);
 
 
 % Number of frames to wait before next stimulus
-waitframes = 400;
+waitframes = 100;
 
 
 % Set the color of our dot to full red. Color is defined by red green
@@ -158,16 +158,16 @@ Screen('DrawDots', window, [dotXpos dotYpos], dotSizePix, dotColor, [], 2);
 % timing details. And how to demos in this section on how to draw multiple
 % rects at once.
 % For help see: Screen Flip?
-  vbl = Screen('Flip', window, vbl + (waitframes - 300) * ifi);
+  vbl = Screen('Flip', window, vbl + (waitframes - 99) * ifi);
 
 % Now we have drawn to the screen we wait for a keyboard button press (any
 % key) to terminate the demo. For help see: help KbStrokeWait
 
 Screen('TextSize', window, 50);
-DrawFormattedText (window, (char((outputScramble))), (rand * 0.6 *  screenXpixels), (rand * screenYpixels), [1 0 0]);
+DrawFormattedText (window, (char((outputScramble))), (rand * 0.3 *  screenXpixels), (rand * 0.1 * screenYpixels), [1 0 0]);
 
 % Flip to the screen
-  vbl = Screen('Flip', window, vbl + (waitframes - 300) * ifi);
+  vbl = Screen('Flip', window, vbl + (waitframes - 99) * ifi);
 KbStrokeWait;
 end
 end
