@@ -1,4 +1,4 @@
-%% STROOP TEST LEVEL 1 %%
+%% STROOP TEST LEVEL 2 %%
 
 %Colors Being Used
 
@@ -135,7 +135,7 @@ for trial = 1:numTrials
 
     % Word and color number
     wordNum = condMatrixShuffled(1, trial);
-    colorNum = condMatrixShuffled(1, trial);
+    colorNum = condMatrixShuffled(2, trial);
 
     % The color word and the color it is drawn in
     theWord = wordList(wordNum);
@@ -323,3 +323,5 @@ KbStrokeWait;
 
 %clear, prepare for next level 
 sca;
+
+run('workingmemory3.m')

@@ -1,4 +1,4 @@
-%% STROOP TEST LEVEL 1 %%
+%% STROOP TEST LEVEL 2 %%
 
 %Colors Being Used
 
@@ -147,11 +147,11 @@ for trial = 1:numTrials
     % If this is the first trial we present a start screen and wait for a
     % key-press
     if trial == 1
-        DrawFormattedText(window, 'Welcome to Level Three of our Working Memory Task! \n\n Press any key to see instructions!',...
+        DrawFormattedText(window, 'Welcome to Level Two of our Working Memory Task! \n\n Press any key to see instructions!',...
             'center', 'center', black); %Welcome screen
         Screen('Flip', window);
         KbStrokeWait;
-        DrawFormattedText(window, 'Similar to Level One, you will be shown a succession of words \n\n and are tasked with remembering what color EVERY OTHER word is printed in.\n\n If the word is printed in green, press the g key! \n\n If red, press the r key! \n\n If yellow, press the y key!, \n\n If blue, press the b key! \n\n Press any key to start!! \n\n  You can quit anytime by pressing ESC!','center', 'center', black)
+        DrawFormattedText(window, 'You will be shown a succession of words \n\n and are tasked with remembering what EVERY OTHER word is. \n\n If the word is "green", press the g key! \n\n If "red", press the r key! \n\n If "yellow", press the y key!, \n\n If "blue", press the b key! \n\n Press any key to start!! \n\n  You can quit anytime by pressing ESC!','center', 'center', black)
         Screen('Flip', window);%Task directions text
         KbStrokeWait;
 
@@ -260,6 +260,7 @@ KbStrokeWait;
         elseif keyCode(greenKey)%G key corrosponds to color 2 (green)
             response= 2;
             respToBeMade = false;
+       
         end
 
      % Change screen
@@ -273,27 +274,30 @@ KbStrokeWait;
     respMat(2, trial) = colorNum;%number corrosponding to color of word (1-4) 
     respMat(3, trial) = response;%number corrosponding to color chosen by test taker (1-4) 
     respMat(4, trial) = rt;%response time in seconds 
-
- if colorNum == response
+if trial<3
+    respMat(5,trial) = 1
+end
+if trial>=3
+ if respMat(2,trial-2) == response
     respMat(5,trial) = 1
  else
      respMat(5,trial)= 0
  end
 
  end
-
+end
 %----------------------------------------------------------------------
 %                      Accuracy and Response Time Data: 
 %----------------------------------------------------------------------
 % Setting results; Average reaction time and accuracy of trial 
 
-%reaction time; average of 12 trials 
-averagereaction= sum(respMat(4,:))
-averagert= averagereaction/12
+%reaction time; average of 10 trials 
+averagereaction= sum(respMat(4,3:12))
+averagert= averagereaction/10
  
 %accuracy of trials; average of 12 trials multiplied by 100 for a percentage out of 100.
-accuracy= sum((respMat(5,:)))
-accuracypercent= (accuracy/12)*100
+accuracy= sum((respMat(5,3:12)))
+accuracypercent= (accuracy/10)*100
 
 % setting variables for display results (to be utilized in later screen) 
 RTdisp= num2str(averagert)
