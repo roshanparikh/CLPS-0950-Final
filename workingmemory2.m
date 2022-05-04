@@ -135,7 +135,7 @@ for trial = 1:numTrials
 
     % Word and color number
     wordNum = condMatrixShuffled(1, trial);
-    colorNum = condMatrixShuffled(2, trial);
+    colorNum = condMatrixShuffled(1, trial);
 
     % The color word and the color it is drawn in
     theWord = wordList(wordNum);
@@ -274,29 +274,30 @@ KbStrokeWait;
     respMat(2, trial) = colorNum;%number corrosponding to color of word (1-4) 
     respMat(3, trial) = response;%number corrosponding to color chosen by test taker (1-4) 
     respMat(4, trial) = rt;%response time in seconds 
-
- if colorNum == response
+if trial<3
     respMat(5,trial) = 1
- elseif response == 5
-     respMat(5,trial) = 1
+end
+if trial>=3
+ if respMat(1,trial-2) == response
+    respMat(5,trial) = 1
  else
      respMat(5,trial)= 0
  end
 
  end
-
+end
 %----------------------------------------------------------------------
 %                      Accuracy and Response Time Data: 
 %----------------------------------------------------------------------
 % Setting results; Average reaction time and accuracy of trial 
 
-%reaction time; average of 12 trials 
-averagereaction= sum(respMat(4,:))
-averagert= averagereaction/12
+%reaction time; average of 10 trials 
+averagereaction= sum(respMat(4,3:12))
+averagert= averagereaction/10
  
 %accuracy of trials; average of 12 trials multiplied by 100 for a percentage out of 100.
-accuracy= sum((respMat(5,:)))
-accuracypercent= (accuracy/12)*100
+accuracy= sum((respMat(5,3:12)))
+accuracypercent= (accuracy/10)*100
 
 % setting variables for display results (to be utilized in later screen) 
 RTdisp= num2str(averagert)
