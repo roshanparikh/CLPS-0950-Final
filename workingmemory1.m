@@ -136,11 +136,11 @@ for trial = 1:numTrials
     % If this is the first trial we present a start screen and wait for a
     % key-press
     if trial == 1
-        DrawFormattedText(window, 'Welcome to Level One of Our N-Back Memory Task!  \n\n Press any key to see instructions!',...
+        DrawFormattedText(window, 'Welcome to Level One of Our 2-Back Memory Task!  \n\n Press any key to see instructions!',...
             'center', 'center', black); %Welcome screen
         Screen('Flip', window);
         KbStrokeWait;
-        DrawFormattedText(window, 'A series of words will flash on the screen \n\n You will be tasked with inputting \n\n the COLOR of the word which was displayed TWO PRESENTATIONS prior.\n\n If the word is printed in GREEN, press the g key! \n\n If in RED, press the r key! \n\n If in YELLOW, press the y key!, \n\n If in BLUE, press the b key! \n\n Press any key to start!! \n\n  You can quit anytime by pressing ESC!','center', 'center', black)
+        DrawFormattedText(window, 'A series of words will flash on the screen \n\n Your task is to imput the COLOR  \n\n of the word which was displayed TWO PRESENTATIONS prior.\n\n If the word is printed in GREEN, press the g key! \n\n If in RED, press the r key! \n\n If in YELLOW, press the y key!, \n\n If in BLUE, press the b key! \n\n Press the "g" key for the first two trials to advance \n\n Press any key to start!! \n\n  You can quit anytime by pressing ESC!','center', 'center', black)
         Screen('Flip', window);%Task directions text
         KbStrokeWait;
 
