@@ -1,4 +1,6 @@
 % Edited by Imaad Said, 4/29/2022 at 1:30
+%Edited by Imaad Said, 5/02/2022 at 3:00
+% Edited by Imaad Said, 5/03/2022 at 10:00
 
 % Clear the workspace and the screen
 sca;
@@ -99,7 +101,7 @@ condMatrixBase = [sort(repmat([1 2 3 4], 1, 3)); repmat([1 2 3 4], 1, 3)];% This
 
 
 % This is for the number of trials per condition, giving us a total of 12 trials.
-trialsPerCondition = 1;
+trialsPerCondition = 3;
 
 % Duplicate the condition matrix to get the full number of trials
 condMatrix = repmat(condMatrixBase, 1, trialsPerCondition);
@@ -144,12 +146,95 @@ wordsToScramble{1,25} = ['c' 'l' 'e' 'm' 'e' 'n' 't' 'i' 'n' 'e'];
 randomScramble =  wordsToScramble(randperm(numel(wordsToScramble))) 
 vbl = Screen('Flip', window);
 
-numTrials = 5
-for trial = 1:numTrials
+inediblewords = cell (1,3);
+inedibleWords{1,1} = ['b' 'o' 't' 't' 'l' 'e'];
+inedibleWords{1,2} = ['j' 'a' 'c' 'k' 'e' 't'];
+inedibleWords{1,3} = ['l' 'i' 'b' 'r' 'a' 'r' 'y'];
+primedWords = inedibleWords(randperm(numel(inedibleWords)))
+
+newWords = cell(1,3);
+newWords{1,1} = ['t' 'a' 'b' 'l' 'e'];
+newWords{1,2} = ['l' 'a' 'b' 'o' 'r' 'a' 't' 'o' 'r' 'y'];
+newWords{1,3} = ['p' 'i' 'p' 'e' 't' 't' 'e'];
+newestWords = newWords(randperm(numel(newWords)))
+
 for i = 1:25
     inputScramble = char(randomScramble(1,i));
     outputScramble = randomizeStr(inputScramble);
     scrambledWords{1,i} = outputScramble;
+   
+trialNum = 0;
+scoreTally = 0;
+
+%15 trials, can move between them with a key press
+while trialNum < 15
+    [keyIsDown,secs, keyCode] = KbCheck;
+    if keyCode(escapeKey)
+        ShowCursor;
+        sca;
+        return
+        %if the nonmatch (n) or match (right arrow) key pressed, progress
+        %to next trial
+    elseif keyCode(leftKey) || keyCode(rightKey)
+        WaitSecs(0.2);
+        %Generate random Red and Green values between 50 and 220 on RGB
+     
+        %Create variable to randomize the trialType
+            %trialType 1: red channel value is changed by slider, final squares can match
+            %trialType 2: red channel value is changed by slider, final squares cannot match
+            %trialType 3: green channel value is changed by sider, final squares can match
+            %trialType 4: green channel value is changed by slider, final squares cannot match
+        trialType = 1;
+        
+        % Make our rectangle coordinates
+      
+        % Flip to the screen
+        Screen('Flip', window);
+
+        %while a key is not being pressed, slider should still be active
+        while KbCheck == 0
+            if trialType == 1 %slider should only change r_given_exp
+                 DrawFormattedText (window, (char((outputScramble))), (xCenter), (yCenter), [1 0 0]);
+                 Screen('TextSize', window, 50);
+                %Flip to the screen
+            
+            elseif trialType == 2
+                Screen('TextSize', window, 50);
+                DrawFormattedText (window, (char((primedWords))), (rand * 0.6 *  screenXpixels), (rand * screenYpixels), [1 0 0]);
+              
+            elseif trialType == 3
+                Screen('TextSize', window, 50);
+                DrawFormattedText (window, (char((newestWords))), (rand * 0.6 *  screenXpixels), (rand * screenYpixels), [1 0 0]);
+            end
+
+  
+        [keyIsDown,secs, keyCode] = KbCheck;
+        % if nonmatch trial types (2 and 4) are presented and the n key is
+        % pressed, the answer is correct and scoreTally in increased by 1
+        if keyCode(leftKey)
+            if trialType == 1
+                scoreTally = scoreTally + 1;
+        % if match trial types (1 and 3) are presented and the n key is
+        % pressed, the answer is incorrect and scoreTally remains the same
+            elseif trialType == 2 || trialType == 3
+                scoreTally = scoreTally + 0;
+            end
+        elseif keyCode (rightKey)
+            if trialType == 1
+                scoreTally = scoreTally + 0;
+            elseif trialType == 2 || trialType == 3
+                scoreTally = scoreTally + 1;
+            end
+        end
+             
+
+        end
+        Implicitscore = scoreTally/(trialNum + 1);
+
+        %Move to the next trialj
+        trialNum = trialNum+1;
+        end
+end
 
 Screen('DrawDots', window, [dotXpos dotYpos], dotSizePix, dotColor, [], 2);
 
@@ -170,9 +255,10 @@ DrawFormattedText (window, (char((outputScramble))), (rand * 0.6 *  screenXpixel
   vbl = Screen('Flip', window, vbl + (waitframes - 300) * ifi);
 KbStrokeWait;
 end
-end
+
 % Now we have drawn to the screen we wait for a keyboard button press (any
 % key) to terminate the demo
+
 
 
 % Clear the screen. "sca" is short hand for "Screen CloseAll". This clears
