@@ -57,6 +57,8 @@ topPriorityLevel = MaxPriority(window);
 % For help see: Screen BlendFunction?
 % Also see: Chapter 6 of the OpenGL programming guide
 Screen('BlendFunction', window, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
 %----------------------------------------------------------------------
 %                       Keyboard Presses
 %----------------------------------------------------------------------
@@ -64,6 +66,22 @@ Screen('BlendFunction', window, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 rightKey = KbName('RightArrow');
 escapeKey = KbName('ESCAPE');
 leftKey = KbName('LeftArrow');
+
+DrawFormattedText(window, ['Welcome to the RGB Anomaloscope! \n\n ' ...
+    'Press any key to see instructions!'],...
+    'center', 'center', black);
+Screen('Flip', window);
+KbStrokeWait;
+
+Dsca
+rawFormattedText(window, ['In this task, you will be given two squares. \n\n ' ...
+    'Your job is to use the slider to make the box on the left be the same \n color as the box on the right \n\n ' ...
+    'Once you have a match, press the right arrow key! \n\n ' ...
+    'If a match is not possible, press the N key \n\n ' ...
+    'Press the right arrow key TWICE to begin!'],...
+    'center', 'center', black);
+Screen('Flip', window);
+KbStrokeWait;
 
 %----------------------------------------------------------------------
 %                       Timing Information
