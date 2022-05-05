@@ -162,12 +162,18 @@ for i = 1:25
     inputScramble = char(randomScramble(1,i));
     outputScramble = randomizeStr(inputScramble);
     scrambledWords{1,i} = outputScramble;
-   
+end   
 trialNum = 0;
 scoreTally = 0;
 
 %15 trials, can move between them with a key press
 while trialNum < 15
+
+for i = 1:25
+    inputScramble = char(randomScramble(1,i));
+    outputScramble = randomizeStr(inputScramble);
+    scrambledWords{1,i} = outputScramble;
+end   
     [keyIsDown,secs, keyCode] = KbCheck;
     if keyCode(escapeKey)
         ShowCursor;
@@ -177,6 +183,7 @@ while trialNum < 15
         %to next trial
     elseif keyCode(leftKey) || keyCode(rightKey)
         WaitSecs(0.2);
+        randperm(numel(outputScramble));
         %Generate random Red and Green values between 50 and 220 on RGB
      
         %Create variable to randomize the trialType
@@ -194,9 +201,11 @@ while trialNum < 15
         %while a key is not being pressed, slider should still be active
         while KbCheck == 0
             if trialType == 1 %slider should only change r_given_exp
-                 DrawFormattedText (window, (char((outputScramble))), (xCenter), (yCenter), [1 0 0]);
-                 Screen('TextSize', window, 50);
-                %Flip to the screen
+                Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
+                WaitSecs(0.3);
+                Screen('Flip', window);
+                 DrawFormattedText (window, (char((outputScramble))), (rand * 0.6 *  screenXpixels), (rand * screenYpixels), [1 0 0]);
+                Screen('Flip', window);
             
             elseif trialType == 2
                 Screen('TextSize', window, 50);
@@ -254,7 +263,7 @@ DrawFormattedText (window, (char((outputScramble))), (rand * 0.6 *  screenXpixel
 % Flip to the screen
   vbl = Screen('Flip', window, vbl + (waitframes - 300) * ifi);
 KbStrokeWait;
-end
+
 
 % Now we have drawn to the screen we wait for a keyboard button press (any
 % key) to terminate the demo
