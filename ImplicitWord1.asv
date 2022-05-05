@@ -1,4 +1,6 @@
 % Edited by Imaad Said, 4/29/2022 at 1:30
+%Edited by Imaad Said, 5/02/2022 at 3:00
+% Edited by Imaad Said, 5/03/2022 at 10:00
 
 % Clear the workspace and the screen
 sca;
@@ -55,6 +57,8 @@ topPriorityLevel = MaxPriority(window);
 % For help see: Screen BlendFunction?
 % Also see: Chapter 6 of the OpenGL programming guide
 Screen('BlendFunction', window, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+
 %----------------------------------------------------------------------
 %                       Keyboard Presses
 %----------------------------------------------------------------------
@@ -62,6 +66,20 @@ Screen('BlendFunction', window, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 rightKey = KbName('RightArrow');
 escapeKey = KbName('ESCAPE');
 leftKey = KbName('LeftArrow');
+
+DrawFormattedText(window, ['Welcome to the Cognitive Linguistics Test! \n\n ' ...
+    'Press any key to see instructions!'],...
+    'center', 'center', black);
+Screen('Flip', window);
+KbStrokeWait;
+
+
+DrawFormattedText(window, ['In this first task, you will be presnted with a word. \n\n ' ...
+    'The word will represent either \n\n an edible object, or an inedible one. \n\n When the word appears, press: \n\n the e key if the item is edible,\n\n and the i key if inedible. \n\n ' ...
+    'Press the right arrow key TWICE to begin!'],...
+    'center', 'center', black);
+Screen('Flip', window);
+KbStrokeWait;
 
 %----------------------------------------------------------------------
 %                       Timing Information
@@ -73,7 +91,7 @@ isiTimeFrames = round(isiTimeSecs / ifi);
 
 
 % Number of frames to wait before next stimulus
-waitframes = 400;
+waitframes = 1;
 
 
 % Set the color of our dot to full red. Color is defined by red green
@@ -115,52 +133,23 @@ condMatrixShuffled = condMatrix(:, shuffler);
 % this line type "Screen DrawDots?" at the command line (without the
 % brackets) and press enter. Here we used good antialiasing to get nice
 % smooth edges
-wordsToScramble = cell(1, 25);
-wordsToScramble{1,1} = ['k' 'n' 'i' 'f' 'e'];
-wordsToScramble{1,2} = ['a' 'r' 't' 'i' 's' 't'];
-wordsToScramble{1,3} = ['p' 'a' 'i' 'n' 't' 'e' 'r'];
-wordsToScramble{1,4} = ['c' 'h' 'e' 'f'];
-wordsToScramble{1,5} = ['v' 'e' 'r' 'd' 'a' 'n' 't'];
-wordsToScramble{1,6} = ['c' 'r' 'e' 'a' 't' 'i' 'o' 'n'];
-wordsToScramble{1,7} = ['b' 'u' 'i' 'l' 'd' 'i' 'n' 'g'];
-wordsToScramble{1,8} = ['t' 'e' 'a' 's' 'e'];
-wordsToScramble{1,9} = ['b' 'u' 'b' 'b' 'l' 'e' 's'];
-wordsToScramble{1,10} = ['c' 'o' 'f' 'f' 'e' 'e'];
-wordsToScramble{1,11} = ['s' 'u' 's' 'h' 'i'];
-wordsToScramble{1,12} = ['b' 'o' 'o' 'k' 's' 't' 'o' 'r' 'e'];
-wordsToScramble{1,13} = ['o' 'f' 'f' 'i' 'c' 'e'];
-wordsToScramble{1,14} = ['f' 'l' 'a' 'g'];
-wordsToScramble{1,15} = ['n' 'a' 't' 'i' 'o' 'n'];
-wordsToScramble{1,16} = ['l' 'a' 'k' 'e'];
-wordsToScramble{1,17} = ['p' 'o' 'n' 'd'];
-wordsToScramble{1,18} = ['f' 'a' 'm' 'i' 'l' 'y'];
-wordsToScramble{1,19} = ['m' 'o' 't' 'h' 'e' 'r'];
-wordsToScramble{1,20} = ['o' 'k' 'r' 'a'];
-wordsToScramble{1,21} = ['b' 'a' 'n' 'k'];
-wordsToScramble{1,22} = ['k' 'a' 'b' 'o' 'b'];
-wordsToScramble{1,23} = ['y' 'e' 'l' 'l' 'o' 'w'];
-wordsToScramble{1,24} = ['v' 'e' 'g' 'a' 'n'];
-wordsToScramble{1,25} = ['c' 'l' 'e' 'm' 'e' 'n' 't' 'i' 'n' 'e'];
-randomScramble =  wordsToScramble(randperm(numel(wordsToScramble))) 
-vbl = Screen('Flip', window);
+% inediblewords = cell (1,3);
+% inedibleWords{1,1} = ['b' 'o' 't' 't' 'l' 'e'];
+% inedibleWords{1,2} = ['j' 'a' 'c' 'k' 'e' 't'];
+% inedibleWords{1,3} = ['l' 'i' 'b' 'r' 'a' 'r' 'y'];
+% primedWords = inedibleWords(randperm(numel(inedibleWords)))
+% 
+% newWords = cell(1,3);
+% newWords{1,1} = ['t' 'a' 'b' 'l' 'e'];
+% newWords{1,2} = ['l' 'a' 'b' 'o' 'r' 'a' 't' 'o' 'r' 'y'];
+% newWords{1,3} = ['p' 'i' 'p' 'e' 't' 't' 'e'];
+% newestWords = newWords(randperm(numel(newWords)))
 
-inediblewords = cell (1,3);
-inedibleWords{1,1} = ['b' 'o' 't' 't' 'l' 'e'];
-inedibleWords{1,2} = ['j' 'a' 'c' 'k' 'e' 't'];
-inedibleWords{1,3} = ['l' 'i' 'b' 'r' 'a' 'r' 'y'];
-primedWords = inedibleWords(randperm(numel(inedibleWords)))
-
-newWords = cell(1,3);
-newWords{1,1} = ['t' 'a' 'b' 'l' 'e'];
-newWords{1,2} = ['l' 'a' 'b' 'o' 'r' 'a' 't' 'o' 'r' 'y'];
-newWords{1,3} = ['p' 'i' 'p' 'e' 't' 't' 'e'];
-newestWords = newWords(randperm(numel(newWords)))
-
-for i = 1:25
-    inputScramble = char(randomScramble(1,i));
-    outputScramble = randomizeStr(inputScramble);
-    scrambledWords{1,i} = outputScramble;
-   
+% for i = 1:numTrials
+%     inputScramble = char(randomScramble(1,i));
+%     outputScramble = randomizeStr(inputScramble);
+%     scrambledWords{1,i} = outputScramble;
+% end   
 trialNum = 0;
 scoreTally = 0;
 
@@ -175,6 +164,7 @@ while trialNum < 15
         %to next trial
     elseif keyCode(leftKey) || keyCode(rightKey)
         WaitSecs(0.2);
+        
         %Generate random Red and Green values between 50 and 220 on RGB
      
         %Create variable to randomize the trialType
@@ -192,18 +182,21 @@ while trialNum < 15
         %while a key is not being pressed, slider should still be active
         while KbCheck == 0
             if trialType == 1 %slider should only change r_given_exp
-                 DrawFormattedText (window, (char((outputScramble))), (xCenter), (yCenter), [1 0 0]);
-                 Screen('TextSize', window, 50);
-                %Flip to the screen
-    
+                run("scrambling_words.m")
+                Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
+                Screen('Flip', window);
+                WaitSecs(1.0) || WaitSecs (2.0) ||
+                 DrawFormattedText (window, (char((outputScramble))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
+                Screen('Flip', window);
+                WaitSecs(1.0);
+            
             elseif trialType == 2
                 Screen('TextSize', window, 50);
-                DrawFormattedText (window, (char((primedWords))), (rand * 0.6 *  screenXpixels), (rand * screenYpixels), [1 0 0]);
+                DrawFormattedText (window, (char((primedWords))), (rand * xCenter), (rand * yCenter), [1 0 0]);
               
             elseif trialType == 3
                 Screen('TextSize', window, 50);
                 DrawFormattedText (window, (char((newestWords))), (rand * 0.6 *  screenXpixels), (rand * screenYpixels), [1 0 0]);
-                  Screen('Flip', window);
             end
 
   
@@ -230,7 +223,7 @@ while trialNum < 15
         end
         Implicitscore = scoreTally/(trialNum + 1);
 
-        %Move to the next trialj
+        %Move to the next trial
         trialNum = trialNum+1;
         end
 end
@@ -253,7 +246,7 @@ DrawFormattedText (window, (char((outputScramble))), (rand * 0.6 *  screenXpixel
 % Flip to the screen
   vbl = Screen('Flip', window, vbl + (waitframes - 300) * ifi);
 KbStrokeWait;
-end
+
 
 % Now we have drawn to the screen we wait for a keyboard button press (any
 % key) to terminate the demo

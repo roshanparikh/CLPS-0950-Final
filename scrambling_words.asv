@@ -25,7 +25,7 @@ wordsToScramble{1,22} = ['k' 'a' 'b' 'o' 'b'];
 wordsToScramble{1,23} = ['y' 'e' 'l' 'l' 'o' 'w'];
 wordsToScramble{1,24} = ['v' 'e' 'g' 'a' 'n'];
 wordsToScramble{1,25} = ['c' 'l' 'e' 'm' 'e' 'n' 't' 'i' 'n' 'e'];
-for i = 1:randi(25,1)
+for i = 1:25
     inputScramble = char(wordsToScramble(1,i)); %uses list wordsToScramble as the input list
     outputScramble = randomizeStr(inputScramble);
     if outputScramble ~= inputScramble
@@ -34,5 +34,7 @@ for i = 1:randi(25,1)
         outputScramble = randomizeStr(inputScramble);
         scrambledWords{1,i} = outputScramble;
     end
+    a= cell2mat(outputScramble)
+    b=a(randi(length(a)))
+    
 end 
-disp(inputScramble)

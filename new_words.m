@@ -25,3 +25,9 @@ newWords{1,22} = ['s' 'y' 'r' 'u' 'p'];
 newWords{1,23} = ['s' 'u' 'r' 'v' 'e' 'y'];
 newWords{1,24} = ['d' 'o' 'c' 't' 'o' 'r'];
 newWords{1,25} = ['s' 't' 'e' 't' 'h' 'o' 's' 'c' 'o' 'p' 'e'];
+for i = 1:randi(25,1)
+    inputNew = char(newWords(1,i));
+end
+disp(inputNew)
+
+    
