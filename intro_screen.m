@@ -134,7 +134,11 @@ while KbCheck == 0
         strooplevel2;
         strooplevel3;
         strooplevel4;
-    %elseif insideL == 1 && sum(buttons) > 0
+    elseif insideL == 1 && sum(buttons) > 0
+        i = 3
+        ImplicitWord1;
+
+
     
     elseif insideM == 1 && sum(buttons) > 0
         i = 4
