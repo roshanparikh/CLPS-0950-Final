@@ -126,18 +126,15 @@ while KbCheck == 0
     insideM = IsInRect(mx, my, memRect);
 
     if insideR == 1 && sum(buttons) == 1;
-        i = 1
         RGB_v11;
     elseif insideS == 1 && sum(buttons) > 0
-        i = 2
         strooplevel1;
         strooplevel2;
         strooplevel3;
         strooplevel4;
-    %elseif insideL == 1 && sum(buttons) > 0
-    
+    elseif insideL == 1 && sum(buttons) > 0
+        ImplicitWord1;
     elseif insideM == 1 && sum(buttons) > 0
-        i = 4
         workingmemory1;
     end
 end
