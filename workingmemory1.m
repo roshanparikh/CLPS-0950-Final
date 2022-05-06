@@ -1,15 +1,4 @@
-%% STROOP TEST LEVEL 1 %%
-
-%Colors Being Used
-
-% Tasks
-% 1. list of colors
-% 2. associated color values
-% 3. display 
-% 4. collect user input 
-% 5. store user input in an array for # of trials
-% 6. display results
-
+%% N-Back Memory Task Level One  %%
 
 % Clearing the workspace from color blind test before start of the level
 close all;
@@ -147,11 +136,11 @@ for trial = 1:numTrials
     % If this is the first trial we present a start screen and wait for a
     % key-press
     if trial == 1
-        DrawFormattedText(window, 'Welcome to Level Two of our Working Memory Task! \n\n Press any key to see instructions!',...
+        DrawFormattedText(window, 'Welcome to Level One of Our 2-Back Memory Task!  \n\n Press any key to see instructions!',...
             'center', 'center', black); %Welcome screen
         Screen('Flip', window);
         KbStrokeWait;
-        DrawFormattedText(window, 'You will be shown a succession of words \n\n and are tasked with remembering what EVERY OTHER word is. \n\n If the word is "green", press the g key! \n\n If "red", press the r key! \n\n If "yellow", press the y key!, \n\n If "blue", press the b key! \n\n Press any key to start!! \n\n  You can quit anytime by pressing ESC!','center', 'center', black)
+        DrawFormattedText(window, 'A series of words will flash on the screen \n\n Your task is to input the COLOR of the word \n\n which was displayed TWO PRESENTATIONS prior.\n\n If the word is printed in GREEN, press the g key! \n\n If in RED, press the r key! \n\n If in YELLOW, press the y key!, \n\n If in BLUE, press the b key! \n\n Press the "g" key for the FIRST TWO trials to advance \n\n Press any key to start!! \n\n  You can quit anytime by pressing ESC!','center', 'center', black)
         Screen('Flip', window);%Task directions text
         KbStrokeWait;
 
