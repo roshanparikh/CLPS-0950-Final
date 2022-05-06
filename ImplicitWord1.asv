@@ -5,7 +5,8 @@
 % Clear the workspace and the screen
 sca;
 close all;
-clear;
+clear all;
+Screen('Preference', 'SkipSyncTests', 1);
 
 % Here we call some default settings for setting up Psychtoolbox
 PsychDefaultSetup(2);
@@ -63,9 +64,9 @@ Screen('BlendFunction', window, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 %                       Keyboard Presses
 %----------------------------------------------------------------------
 
-rightKey = KbName('RightArrow');
+kKey = KbName('k');
 escapeKey = KbName('ESCAPE');
-leftKey = KbName('LeftArrow');
+lKey = KbName('l');
 
 DrawFormattedText(window, ['Welcome to the Cognitive Linguistics Test! \n\n ' ...
     'Press any key to see instructions!'],...
@@ -74,9 +75,9 @@ Screen('Flip', window);
 KbStrokeWait;
 
 
-DrawFormattedText(window, ['In this first task, you will be presnted with a word. \n\n ' ...
-    'The word will represent either \n\n an edible object, or an inedible one. \n\n When the word appears, press: \n\n the e key if the item is edible,\n\n and the i key if inedible. \n\n ' ...
-    'Press the right arrow key TWICE to begin!'],...
+DrawFormattedText(window, ['In this task, you will be presnted with a string of letters \n\n ' ...
+    'The letters will either make \n\n a word, or a non-word \n\n When the letters appear, press: \n\n the l key if the letters make a word,\n\n and the k key if not. \n\n ' ...
+    'Press the l key TWICE to begin!'],...
     'center', 'center', black);
 Screen('Flip', window);
 KbStrokeWait;
@@ -162,101 +163,116 @@ while trialNum < 15
         return
         %if the nonmatch (n) or match (right arrow) key pressed, progress
         %to next trial
-    elseif keyCode(leftKey) || keyCode(rightKey)
-        WaitSecs(0.2);
+    elseif keyCode(kKey) || keyCode(lKey) || (KbCheck = 0 && 
         
         %Generate random Red and Green values between 50 and 220 on RGB
-     
         %Create variable to randomize the trialType
             %trialType 1: red channel value is changed by slider, final squares can match
             %trialType 2: red channel value is changed by slider, final squares cannot match
             %trialType 3: green channel value is changed by sider, final squares can match
             %trialType 4: green channel value is changed by slider, final squares cannot match
-        trialType = 1;
-        
-        % Make our rectangle coordinates
+        trialType = randi(3,1)
       
         % Flip to the screen
         Screen('Flip', window);
-
-        %while a key is not being pressed, slider should still be active
-        while KbCheck == 0
             if trialType == 1 %slider should only change r_given_exp
                 run("scrambling_words.m")
                 Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
                 Screen('Flip', window);
-                WaitSecs(1.0) || WaitSecs (2.0) ||
+                WaitSecs(rand + rand + rand)
                  DrawFormattedText (window, (char((outputScramble))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
                 Screen('Flip', window);
-                WaitSecs(1.0);
+                
             
             elseif trialType == 2
-                Screen('TextSize', window, 50);
-                DrawFormattedText (window, (char((primedWords))), (rand * xCenter), (rand * yCenter), [1 0 0]);
-              
+                run("new_words.m")
+                Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
+                Screen('Flip', window);
+                WaitSecs(rand + rand + rand);
+                DrawFormattedText (window, (char((inputNew))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
+                 Screen('Flip', window);
+                
+               
+
             elseif trialType == 3
-                Screen('TextSize', window, 50);
-                DrawFormattedText (window, (char((newestWords))), (rand * 0.6 *  screenXpixels), (rand * screenYpixels), [1 0 0]);
+                run("combinedprimedwords.m")
+                Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
+                Screen('Flip', window);
+                WaitSecs(rand + rand + rand)
+                DrawFormattedText (window, (char((allprimedWords))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
+                 Screen('Flip', window);
+              
+              
+            
             end
+       
 
   
         [keyIsDown,secs, keyCode] = KbCheck;
         % if nonmatch trial types (2 and 4) are presented and the n key is
         % pressed, the answer is correct and scoreTally in increased by 1
-        if keyCode(leftKey)
+        if keyCode(kKey)
             if trialType == 1
-                scoreTally = scoreTally + 1;
+                scoreTally = scoreTally + 1
         % if match trial types (1 and 3) are presented and the n key is
         % pressed, the answer is incorrect and scoreTally remains the same
             elseif trialType == 2 || trialType == 3
-                scoreTally = scoreTally + 0;
+                scoreTally = scoreTally + 0
             end
-        elseif keyCode (rightKey)
+        elseif keyCode (lKey)
             if trialType == 1
-                scoreTally = scoreTally + 0;
+                scoreTally = scoreTally + 0
             elseif trialType == 2 || trialType == 3
-                scoreTally = scoreTally + 1;
+                scoreTally = scoreTally + 1
             end
         end
              
 
-        end
-        Implicitscore = scoreTally/(trialNum + 1);
+        Implicitscore = scoreTally/(trialNum);
 
         %Move to the next trial
-        trialNum = trialNum+1;
+        trialNum = trialNum + 1
         end
 end
 
-Screen('DrawDots', window, [dotXpos dotYpos], dotSizePix, dotColor, [], 2);
-
-% Flip to the screen. This command basically draws all of our previous
-% commands onto the screen. See later demos in the animation section on more
-% timing details. And how to demos in this section on how to draw multiple
-% rects at once.
-% For help see: Screen Flip?
-  vbl = Screen('Flip', window, vbl + (waitframes - 300) * ifi);
-
-% Now we have drawn to the screen we wait for a keyboard button press (any
-% key) to terminate the demo. For help see: help KbStrokeWait
-
-Screen('TextSize', window, 50);
-DrawFormattedText (window, (char((outputScramble))), (rand * 0.6 *  screenXpixels), (rand * screenYpixels), [1 0 0]);
-
-% Flip to the screen
-  vbl = Screen('Flip', window, vbl + (waitframes - 300) * ifi);
-KbStrokeWait;
-
-
-% Now we have drawn to the screen we wait for a keyboard button press (any
-% key) to terminate the demo
-
-
-
-% Clear the screen. "sca" is short hand for "Screen CloseAll". This clears
-% all features related to PTB. Note: we leave the variables in the
-% workspace so you can have a look at them if you want.
-% For help see: help sca
+scoreDisp=num2str(Implicitscore*100);
+WaitSecs(0.2);
+DrawFormattedText(window, [strcat('Your score is: ','  ', scoreDisp, '%. \n\n Press any key to continue.')],...
+    'center', 'center', black);
+Screen('Flip', window);
+KbStrokeWait
 sca;
+
+% 
+% Screen('DrawDots', window, [dotXpos dotYpos], dotSizePix, dotColor, [], 2);
+% 
+% % Flip to the screen. This command basically draws all of our previous
+% % commands onto the screen. See later demos in the animation section on more
+% % timing details. And how to demos in this section on how to draw multiple
+% % rects at once.
+% % For help see: Screen Flip?
+%   vbl = Screen('Flip', window, vbl + (waitframes - 300) * ifi);
+% 
+% % Now we have drawn to the screen we wait for a keyboard button press (any
+% % key) to terminate the demo. For help see: help KbStrokeWait
+% 
+% Screen('TextSize', window, 50);
+% DrawFormattedText (window, (char((outputScramble))), (rand * 0.6 *  screenXpixels), (rand * screenYpixels), [1 0 0]);
+% 
+% % Flip to the screen
+%   vbl = Screen('Flip', window, vbl + (waitframes - 300) * ifi);
+% KbStrokeWait;
+% 
+% 
+% % Now we have drawn to the screen we wait for a keyboard button press (any
+% % key) to terminate the demo
+% 
+% 
+% 
+% % Clear the screen. "sca" is short hand for "Screen CloseAll". This clears
+% % all features related to PTB. Note: we leave the variables in the
+% % workspace so you can have a look at them if you want.
+% % For help see: help sca
+% sca;
 
 
