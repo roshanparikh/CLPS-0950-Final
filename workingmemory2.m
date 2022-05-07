@@ -313,3 +313,5 @@ KbStrokeWait;
 
 %clear, prepare for next level 
 sca;
+
+run('workingmemory3.m')
