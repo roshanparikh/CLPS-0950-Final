@@ -484,29 +484,6 @@ if RGBscore < 0.25
     DrawFormattedText(window, 'You might be color blind! \n\n Just kidding lol we are not medical professionals \n\n ',...
     'center', 'center', black);
     Screen('Flip', window);
-    KbStrokeWait;
-    DrawFormattedText(window, 'You will now be continuing on to STROOP TEST LEVEL 1 \n\n Press any key to continue',...
-    'center', 'center', black);
-    Screen('Flip', window);
-% if the anomaloscope score is between 25% and 50%, direct user to the 2nd level of
-% the stroop test
-elseif RGBscore >= 0.25 && RGBscore < 0.50
-    DrawFormattedText(window, 'You will now be continuing on to STROOP TEST LEVEL 2 \n\n Press any key to continue',...
-    'center', 'center', black);
-    Screen('Flip', window);
-% if the anomaloscope score is between 50% and 75%, direct user to the 3rd level of
-% the stroop test
-elseif RGBscore >= 0.50 && RGBscore < 0.75
-    DrawFormattedText(window, 'You will now be continuing on to STROOP TEST LEVEL 3 \n\n Press any key to continue',...
-    'center', 'center', black);
-    Screen('Flip', window);
-else 
-% if the anomaloscope score is above 75%, direct user to the 4th level of
-% the stroop test
-    DrawFormattedText(window, 'You will now be continuing on to STROOP TEST LEVEL 4 \n\n Press any key to continue',...
-    'center', 'center', black);
-    Screen('Flip', window);
-end 
 
 KbStrokeWait;
 % Clear the screen

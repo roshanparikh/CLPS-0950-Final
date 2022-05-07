@@ -264,11 +264,16 @@ KbStrokeWait;
     respMat(3, trial) = response;%number corrosponding to color chosen by test taker (1-4) 
     respMat(4, trial) = rt;%response time in seconds 
 
- if colorNum == response
+ if trial<3
+    respMat(5,trial) = 1
+end
+if trial>=3
+ if respMat(2,trial-2) == response
     respMat(5,trial) = 1
  else
      respMat(5,trial)= 0
  end
+end
 
  end
 
@@ -309,3 +314,5 @@ KbStrokeWait;
 
 %clear, prepare for next level 
 sca;
+
+run('intro_screen.m')

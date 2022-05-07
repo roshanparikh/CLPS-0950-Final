@@ -133,7 +133,15 @@ while KbCheck == 0
         strooplevel3;
         strooplevel4;
     elseif insideL == 1 && sum(buttons) > 0
+<<<<<<< HEAD
         ImplicitWord1;
+=======
+        i = 3
+        ImplicitWord1;
+
+
+    
+>>>>>>> 2845ade1f001df4c5702ac12301fa022b2bb8ec2
     elseif insideM == 1 && sum(buttons) > 0
         workingmemory1;
     end
