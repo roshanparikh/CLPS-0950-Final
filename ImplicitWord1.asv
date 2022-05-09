@@ -76,8 +76,8 @@ KbStrokeWait;
 
 
 DrawFormattedText(window, ['In this task, you will be presnted with a string of letters \n\n ' ...
-    'The letters will either make \n\n a word, or a non-word \n\n When the letters appear, press: \n\n the l key if the letters make a word,\n\n and the k key if not. \n\n ' ...
-    'Press the l key TWICE to begin!'],...
+    'The letters will either make \n\n a word or a non-word \n\n When the letters appear, press: \n\n the K key if the letters are not a word, \n\n and press the L key if they do form a word. \n\n ' ...
+    'Press the L key TWICE to begin!'],...
     'center', 'center', black);
 Screen('Flip', window);
 KbStrokeWait;
@@ -153,9 +153,12 @@ condMatrixShuffled = condMatrix(:, shuffler);
 % end   
 trialNum = 0
 scoreTally = 0;
-tracker1 = 0; tracker2 = 0; tracker3 = 0; %tracks number of each trial type
-rtTracker = [0 0 0 0 0 0 0 0 0 0 0 0];
+tracker1 = 1; tracker2 = 1; tracker3 = 1; %tracks number of each trial type
+rtTracker1 = [0]; rtTracker2 = [0]; rtTracker3 = [0];
+rtTrackerTot = [0 0 0 0 0 0 0 0 0 0 0 0];
+randomorder = randperm(12);
 %15 trials, can move between them with a key press
+
 while trialNum < 12
     [keyIsDown,secs, keyCode] = KbCheck;
     if keyCode(escapeKey)
@@ -164,12 +167,13 @@ while trialNum < 12
         return
         %if the nonmatch (n) or match (right arrow) key pressed, progress
         %to next trial
-    elseif keyCode(kKey) || keyCode(lKey)
-        trialType = randi(3,1)
-      
+    else
+        for i = 1:
+            trialType = randomorder([i])
+        end      
         % Flip to the screen
        Screen('Flip', window);
-            if trialType == 1 %slider should only change r_given_exp
+            if trialType == 1 || trialType == 2 || trialType == 3 || trialType == 4 %slider should only change r_given_exp
                 run("scrambling_words.m")
                 Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
                 Screen('Flip', window);
@@ -178,7 +182,7 @@ while trialNum < 12
                 Screen('Flip', window);
                 
             
-            elseif trialType == 2
+            elseif trialType == 5 || trialType == 6 || trialType == 7 || trialType == 8 
                 run("new_words.m")
                 Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
                 Screen('Flip', window);
@@ -188,7 +192,7 @@ while trialNum < 12
                 
                
 
-            elseif trialType == 3
+            elseif trialType == 9 || trialType == 10 || trialType == 11 || trialType == 12
                 run("combinedprimedwords.m")
                 Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
                 Screen('Flip', window);
@@ -200,30 +204,32 @@ onsetTime = GetSecs;
 
 while (GetSecs - onsetTime) < 1.0
 [keyIsDown,secs,keyCode] = PsychHID('KbCheck');
-    if keyCode(kKey)
+    if keyCode(lKey)
+        KbReleaseWait;
         rt = secs - onsetTime
-             if trialType == 1
-            
-                scoreTally = scoreTally + 1;
         % if match trial types (1 and 3) are presented and the n key is
         % pressed, the answer is incorrect and scoreTally remains the same
-             elseif trialType == 2 || trialType == 3
-                 scoreTally = scoreTally + 0;
-             end
-              Implicitscore = scoreTally/(trialNum + 1);
-     elseif keyCode(lKey)
-            rt = secs - onsetTime
-         if trialType == 1
-             scoreTally = scoreTally + 0;
-         elseif trialType == 2 || trialType == 3
-            scoreTally = scoreTally + 1;
+     elseif keyCode(kKey)
+         KbReleaseWait;
+        rt = secs - onsetTime
+        end
          end
-
     end
+
 end
 
-trialNum = trialNum + 1;
-rtTracker(trialNum) = rt;
+    if trialType ==1|| trialType == 2 || trialType == 3 || trialType == 4
+        rtTracker1(tracker1) = rt;
+        tracker1 = tracker1 + 1;
+    elseif trialType == 5 || trialType == 6 || trialType == 7 || trialType == 8 
+        rtTracker2(tracker2) = rt;
+        tracker2 = tracker2 + 1;
+    elseif trialType == 9 || trialType == 10 || trialType == 11 || trialType == 12
+        rtTracker3(tracker3) = rt;
+        tracker3 = tracker3 + 1;
+    end
+        trialNum = trialNum + 1
+rtTrackerTot(trialNum) = rt;
 
 
 
@@ -238,20 +244,30 @@ rtTracker(trialNum) = rt;
                
 
 %         Implicitscore = scoreTally/(trialNum + 1);
-    end
-end
 
-rtFinal = mean(rtTracker)
+
+rtFinal = mean(rtTrackerTot);
+rtWord = mean(rtTracker2);
+rtPrimed = mean(rtTracker3);
+rtNonword = mean(rtTracker1);
 
 % DrawFormattedText(window, [strcat('Your Score is:','  ', Implicitscore, ' \n\n Press any key to exit. Thanks for playing!')],...
 %     'center', 'center', black);
 % Screen('Flip', window);
 % KbStrokeWait
 
-% DrawFormattedText(window, [strcat('Your Score is:','  ', RTdisp, ' \n\n Press any key to exit. Thanks for playing!')],...
-%     'center', 'center', black);
-% Screen('Flip', window);
-% KbStrokeWait;
+Screen('TextSize', window, 20);
+DrawFormattedText(window, ['congrats on completing the tests! \n\n This was actually an implicit word test, \n\n which measured your ability to recall and respond to the words you viewed in the previous task,\n\n versus some new words added for this task, and some scrambled words. \n\n In theory, participants respond the fastest to previously shown words,\n\n and the slowest to scrambled words - but of course, everyone has a different experience.' '\n\n Press any key to see your reaction times. Thanks for playing!'],...
+     'center', 'center', black);
+ Screen('Flip', window);
+ KbStrokeWait;
+
+
+ Screen('TextSize', window, 40);
+ DrawFormattedText(window, [strcat('Your total reaction time is:','  ', num2str(rtFinal), 's',  ' \n\n Your reaction time for previously seen words is:','   ', num2str(rtPrimed), 's', '\n\n Your reaction time for new words is:','   ', num2str(rtWord), 's', '\n\n Your reaction time for scrambled words is:','   ',num2str(rtNonword), 's', '\n\n Press any key to exit. Thanks for playing!')],...
+     'center', 'center', black);
+ Screen('Flip', window); 
+ KbStrokeWait;
 
 sca;
 

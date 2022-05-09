@@ -1,7 +1,3 @@
-% Edited by Imaad Said, 4/29/2022 at 1:30
-%Edited by Imaad Said, 5/02/2022 at 3:00
-% Edited by Imaad Said, 5/03/2022 at 10:00
-
 % Clear the workspace and the screen
 sca;
 close all;
@@ -68,16 +64,16 @@ kKey = KbName('k');
 escapeKey = KbName('ESCAPE');
 lKey = KbName('l');
 
-DrawFormattedText(window, ['Congrats on completing the first portion of the task! \n\n ' ...
-    'Press any key to continue!'],...
+DrawFormattedText(window, ['Welcome to the Cognitive Linguistics Test! \n\n ' ...
+    'Press any key to see instructions!'],...
     'center', 'center', black);
 Screen('Flip', window);
 KbStrokeWait;
 
 
-DrawFormattedText(window, ['In this task, you will be presnted with a string of letters \n\n ' ...
-    'The letters will either make \n\n a word or a non-word \n\n When the letters appear, press: \n\n the K key if the letters are not a word, \n\n and press the L key if they do form a word. \n\n ' ...
-    'Press the L key to begin!'],...
+DrawFormattedText(window, ['In this task, you will be repeatedly presented with words  \n\n ' ...
+    'The word will either represent \n\n an edible object, or an inedible one \n\n When the word appears, press: \n\n the l key if the item is edible,\n\n and the k key if not. \n\n ' ...
+    'Press the l key TWICE to begin!'],...
     'center', 'center', black);
 Screen('Flip', window);
 KbStrokeWait;
@@ -151,15 +147,11 @@ condMatrixShuffled = condMatrix(:, shuffler);
 %     outputScramble = randomizeStr(inputScramble);
 %     scrambledWords{1,i} = outputScramble;
 % end   
-trialNum = 1
+trialNum = 0;
 scoreTally = 0;
-tracker1 = 1; tracker2 = 1; tracker3 = 1; %tracks number of each trial type
-rtTracker1 = [0]; rtTracker2 = [0]; rtTracker3 = [0];
-rtTrackerTot = [0 0 0 0 0 0 0 0 0 0 0 0];
-randomorder = randperm(12);
+randompretest = randperm(25,1)
 %15 trials, can move between them with a key press
-
-while trialNum < 12
+while trialNum < 25
     [keyIsDown,secs, keyCode] = KbCheck;
     if keyCode(escapeKey)
         ShowCursor;
@@ -167,109 +159,49 @@ while trialNum < 12
         return
         %if the nonmatch (n) or match (right arrow) key pressed, progress
         %to next trial
-    else
-            trialNum = trialNum + 1
-            trialType = randomorder([trialNum])     
+    elseif keyCode(kKey) || keyCode(lKey)
+        
+        %Generate random Red and Green values between 50 and 220 on RGB
+        %Create variable to randomize the trialType
+            %trialType 1: red channel value is changed by slider, final squares can match
+            %trialType 2: red channel value is changed by slider, final squares cannot match
+            %trialType 3: green channel value is changed by sider, final squares can match
+            %trialType 4: green channel value is changed by slider, final squares cannot match
+            trialType = randompretest([trialNum])
+        
         % Flip to the screen
-       Screen('Flip', window);
-            if trialType == 1 || trialType == 2 || trialType == 3 || trialType == 4 %slider should only change r_given_exp
-                run("scrambling_words.m")
+        Screen('Flip', window);
+            if trialType == 1 %slider should only change r_given_exp
+                run("inediblewords.m")
                 Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
                 Screen('Flip', window);
                 WaitSecs(rand + rand + rand)
-                 DrawFormattedText (window, (char((outputScramble))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
+                 DrawFormattedText (window, (char((inedible))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
                 Screen('Flip', window);
                 
             
-            elseif trialType == 5 || trialType == 6 || trialType == 7 || trialType == 8 
-                run("new_words.m")
+            elseif trialType == 2
+                run("ediblewords.m")
                 Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
                 Screen('Flip', window);
                 WaitSecs(rand + rand + rand);
-                DrawFormattedText (window, (char((inputNew))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
+                DrawFormattedText (window, (char((edible))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
                  Screen('Flip', window);
-                
-               
-
-            elseif trialType == 9 || trialType == 10 || trialType == 11 || trialType == 12
-                run("combinedprimedwords.m")
-                Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
-                Screen('Flip', window);
-                WaitSecs(rand + rand + rand)
-                DrawFormattedText (window, (char((allprimedWords))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
-                 Screen('Flip', window);
+            
             end
-onsetTime = GetSecs;
-
-while (GetSecs - onsetTime) < 1.0
-[keyIsDown,secs,keyCode] = PsychHID('KbCheck');
-    if keyCode(lKey)
-        KbReleaseWait;
-        rt = secs - onsetTime
-        % if match trial types (1 and 3) are presented and the n key is
-        % pressed, the answer is incorrect and scoreTally remains the same
-     elseif keyCode(kKey)
-         KbReleaseWait;
-        rt = secs - onsetTime
-        end
-         end
- 
-
-    if trialType ==1|| trialType == 2 || trialType == 3 || trialType == 4
-        rtTracker1(tracker1) = rt;
-        tracker1 = tracker1 + 1;
-    elseif trialType == 5 || trialType == 6 || trialType == 7 || trialType == 8 
-        rtTracker2(tracker2) = rt;
-        tracker2 = tracker2 + 1;
-    elseif trialType == 9 || trialType == 10 || trialType == 11 || trialType == 12
-        rtTracker3(tracker3) = rt;
-        tracker3 = tracker3 + 1;
-    end
-
-rtTrackerTot(trialNum) = rt;
-   end
-
-end
-
-
-
-        % if nonmatch trial types (2 and 4) are presented and the n key is
-        % pressed, the answer is correct and scoreTally in increased by 1
-        
-  
 
        
 
         %Move to the next trial
-               
-
-%         Implicitscore = scoreTally/(trialNum + 1);
-
-
-rtFinal = mean(rtTrackerTot);
-rtWord = mean(rtTracker2);
-rtPrimed = mean(rtTracker3);
-rtNonword = mean(rtTracker1);
-
-% DrawFormattedText(window, [strcat('Your Score is:','  ', Implicitscore, ' \n\n Press any key to exit. Thanks for playing!')],...
+        trialNum = trialNum + 1
+        end
+end
+% WaitSecs(0.2);
+% DrawFormattedText(window, [strcat('Your score is: ','  ', num2str(scoreTally), '%. \n\n Press any key to continue.')],...
 %     'center', 'center', black);
-% Screen('Flip', window);
-% KbStrokeWait
-
-Screen('TextSize', window, 20);
-DrawFormattedText(window, ['congrats on completing the tests! \n\n This was actually an implicit word test, \n\n which measured your ability to recall and respond to the words you viewed in the previous task,\n\n versus some new words added for this task, and some scrambled words. \n\n In theory, participants respond the fastest to previously shown words,\n\n and the slowest to scrambled words - but of course, everyone has a different experience.' '\n\n Press any key to see your reaction times. Thanks for playing!'],...
-     'center', 'center', black);
- Screen('Flip', window);
- KbStrokeWait;
-
-
- Screen('TextSize', window, 40);
- DrawFormattedText(window, [strcat('Your average reaction time for all trials is:','  ', num2str(rtFinal), 's',  ' \n\n Your reaction time for previously seen words is:','   ', num2str(rtPrimed), 's', '\n\n Your reaction time for new words is:','   ', num2str(rtWord), 's', '\n\n Your reaction time for scrambled words is:','   ',num2str(rtNonword), 's', '\n\n Press any key to exit. Thanks for playing!')],...
-     'center', 'center', black);
- Screen('Flip', window); 
- KbStrokeWait;
-
+KbStrokeWait
 sca;
+run ImplicitWord1.m
 
 % 
 % Screen('DrawDots', window, [dotXpos dotYpos], dotSizePix, dotColor, [], 2);

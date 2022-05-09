@@ -147,11 +147,13 @@ condMatrixShuffled = condMatrix(:, shuffler);
 %     outputScramble = randomizeStr(inputScramble);
 %     scrambledWords{1,i} = outputScramble;
 % end   
-trialNum = 0;
+trialNum = 1;
 scoreTally = 0;
-
+run("combinedprimedwords.m")
+randompretest = randperm(3)
+combinedprime
 %15 trials, can move between them with a key press
-while trialNum < 2
+while trialNum < 3
     [keyIsDown,secs, keyCode] = KbCheck;
     if keyCode(escapeKey)
         ShowCursor;
@@ -167,8 +169,8 @@ while trialNum < 2
             %trialType 2: red channel value is changed by slider, final squares cannot match
             %trialType 3: green channel value is changed by sider, final squares can match
             %trialType 4: green channel value is changed by slider, final squares cannot match
-        trialType = randi(2,1)
-      
+            randompretest([trialNum])
+        
         % Flip to the screen
         Screen('Flip', window);
             if trialType == 1 %slider should only change r_given_exp
@@ -193,7 +195,6 @@ while trialNum < 2
        
 
         %Move to the next trial
-        Implicitscore = scoreTally/(3);
         trialNum = trialNum + 1
         end
 end

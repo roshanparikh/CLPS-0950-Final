@@ -25,7 +25,7 @@ combinedprime{1,22} = ['b' 'u' 'r' 'g' 'e' 'r'];
 combinedprime{1,23} = ['s' 'o' 'u' 'p'];
 combinedprime{1,24} = ['t' 'o' 'm' 'a' 't' 'o'];
 combinedprime{1,25} = ['c' 'a' 'p' 's' 'i' 'c' 'u' 'm'];
-for i = 1:randi(25,1)
+for i = 1:randperm(25)
     allprimedWords = char(combinedprime(1,i));
 end
 disp(allprimedWords)
