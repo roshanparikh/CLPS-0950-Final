@@ -153,8 +153,10 @@ condMatrixShuffled = condMatrix(:, shuffler);
 % end   
 trialNum = 0
 scoreTally = 0;
+tracker1 = 0; tracker2 = 0; tracker3 = 0; %tracks number of each trial type
+rtTracker = [0 0 0 0 0 0 0 0 0 0 0 0];
 %15 trials, can move between them with a key press
-while trialNum < 3
+while trialNum < 12
     [keyIsDown,secs, keyCode] = KbCheck;
     if keyCode(escapeKey)
         ShowCursor;
@@ -206,21 +208,22 @@ while (GetSecs - onsetTime) < 1.0
         % if match trial types (1 and 3) are presented and the n key is
         % pressed, the answer is incorrect and scoreTally remains the same
              elseif trialType == 2 || trialType == 3
-                 scoreTally = scoreTally + 0
+                 scoreTally = scoreTally + 0;
              end
               Implicitscore = scoreTally/(trialNum + 1);
-         elseif keyCode (lKey)
-             if trialType == 1
-                 scoreTally = scoreTally + 0
-             elseif trialType == 2 || trialType == 3
-                scoreTally = scoreTally + 1
-             end
+     elseif keyCode(lKey)
+            rt = secs - onsetTime
+         if trialType == 1
+             scoreTally = scoreTally + 0;
+         elseif trialType == 2 || trialType == 3
+            scoreTally = scoreTally + 1;
+         end
 
     end
 end
 
- trialNum = trialNum + 1;
-
+trialNum = trialNum + 1;
+rtTracker(trialNum) = rt;
 
 
 
@@ -238,7 +241,7 @@ end
     end
 end
 
-
+rtFinal = mean(rtTracker)
 
 % DrawFormattedText(window, [strcat('Your Score is:','  ', Implicitscore, ' \n\n Press any key to exit. Thanks for playing!')],...
 %     'center', 'center', black);

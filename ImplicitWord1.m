@@ -76,8 +76,8 @@ KbStrokeWait;
 
 
 DrawFormattedText(window, ['In this task, you will be presnted with a string of letters \n\n ' ...
-    'The letters will either make \n\n a word, or a non-word \n\n When the letters appear, press: \n\n the l key if the letters make a word,\n\n and the k key if not. \n\n ' ...
-    'Press the l key TWICE to begin!'],...
+    'The letters will either make \n\n a word or a non-word \n\n When the letters appear, press: \n\n the K key if the letters are not a word, \n\n and press the L key if they do form a word. \n\n ' ...
+    'Press the L key TWICE to begin!'],...
     'center', 'center', black);
 Screen('Flip', window);
 KbStrokeWait;
@@ -153,6 +153,9 @@ condMatrixShuffled = condMatrix(:, shuffler);
 % end   
 trialNum = 0
 scoreTally = 0;
+tracker1 = 1; tracker2_3 = 1; %tracks number of each trial type
+rtTracker1 = [0]; rtTracker2_3 = [0];
+rtTrackerTot = [0 0 0 0 0 0 0 0 0 0 0 0];
 %15 trials, can move between them with a key press
 while trialNum < 12
     [keyIsDown,secs, keyCode] = KbCheck;
@@ -201,27 +204,34 @@ while (GetSecs - onsetTime) < 1.0
     if keyCode(kKey)
         rt = secs - onsetTime
              if trialType == 1
-            
                 scoreTally = scoreTally + 1;
         % if match trial types (1 and 3) are presented and the n key is
         % pressed, the answer is incorrect and scoreTally remains the same
              elseif trialType == 2 || trialType == 3
-                 scoreTally = scoreTally + 0;
+                scoreTally = scoreTally + 0;
              end
               Implicitscore = scoreTally/(trialNum + 1);
-         elseif keyCode (lKey)
-                rt = secs - onsetTime
-             if trialType == 1
-                 scoreTally = scoreTally + 0;
-             elseif trialType == 2 || trialType == 3
-                scoreTally = scoreTally + 1;
-             end
-
+     elseif keyCode(lKey)
+        rt = secs - onsetTime
+         if trialType == 1
+             scoreTally = scoreTally + 0;
+         elseif trialType == 2 || trialType == 3
+            scoreTally = scoreTally + 1;
+         end
     end
+
 end
 
- trialNum = trialNum + 1;
+    if trialType ==1
+        rtTracker1(tracker1) = rt;
+        tracker1 = tracker1 + 1;
+    elseif trialType == 2 || trialType == 3
+        rtTracker2_3(tracker2_3) = rt;
+        tracker2_3 = tracker2_3 + 1;
+    end
 
+trialNum = trialNum + 1;
+rtTrackerTot(trialNum) = rt;
 
 
 
@@ -239,7 +249,9 @@ end
     end
 end
 
-
+rtFinal = mean(rtTrackerTot);
+rtWord = mean(rtTracker2_3);
+rtNonword = mean(rtTracker1);
 
 % DrawFormattedText(window, [strcat('Your Score is:','  ', Implicitscore, ' \n\n Press any key to exit. Thanks for playing!')],...
 %     'center', 'center', black);
