@@ -151,11 +151,10 @@ condMatrixShuffled = condMatrix(:, shuffler);
 %     outputScramble = randomizeStr(inputScramble);
 %     scrambledWords{1,i} = outputScramble;
 % end   
-trialNum = 0;
+trialNum = 0
 scoreTally = 0;
-timeStart = GetSecs;
 %15 trials, can move between them with a key press
-while trialNum < 3 && (GetSecs - timeStart) < 3
+while trialNum < 12
     [keyIsDown,secs, keyCode] = KbCheck;
     if keyCode(escapeKey)
         ShowCursor;
@@ -164,17 +163,10 @@ while trialNum < 3 && (GetSecs - timeStart) < 3
         %if the nonmatch (n) or match (right arrow) key pressed, progress
         %to next trial
     elseif keyCode(kKey) || keyCode(lKey)
-        rt = 1000*(GetSecs-timeStart)
-        %Generate random Red and Green values between 50 and 220 on RGB
-        %Create variable to randomize the trialType
-            %trialType 1: red channel value is changed by slider, final squares can match
-            %trialType 2: red channel value is changed by slider, final squares cannot match
-            %trialType 3: green channel value is changed by sider, final squares can match
-            %trialType 4: green channel value is changed by slider, final squares cannot match
         trialType = randi(3,1)
       
         % Flip to the screen
-        Screen('Flip', window);
+       Screen('Flip', window);
             if trialType == 1 %slider should only change r_given_exp
                 run("scrambling_words.m")
                 Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
@@ -201,50 +193,64 @@ while trialNum < 3 && (GetSecs - timeStart) < 3
                 WaitSecs(rand + rand + rand)
                 DrawFormattedText (window, (char((allprimedWords))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
                  Screen('Flip', window);
-              
-              
-            
             end
-       
+onsetTime = GetSecs;
 
-        timeSt = GetSecs;
-        [keyIsDown,secs, keyCode] = KbCheck;
-        % if nonmatch trial types (2 and 4) are presented and the n key is
-        % pressed, the answer is correct and scoreTally in increased by 1
-        if keyCode(kKey)
-            pause_rt = 1000*(secs-timeSt);
-%             if trialType == 1|| trialType == 2 || trialType == 3
+while (GetSecs - onsetTime) < 1.0
+[keyIsDown,secs,keyCode] = PsychHID('KbCheck');
+    if keyCode(kKey)
+        rt = secs - onsetTime
+             if trialType == 1
             
                 scoreTally = scoreTally + 1;
-                RTdisp = num2str(pause_rt*100)
         % if match trial types (1 and 3) are presented and the n key is
         % pressed, the answer is incorrect and scoreTally remains the same
-%             elseif trialType == 2 || trialType == 3
-%                 scoreTally = scoreTally + 0
-%             end
-        end
-%         elseif keyCode (lKey)
-%             if trialType == 1
-%                 scoreTally = scoreTally + 0
-%             elseif trialType == 2 || trialType == 3
-%                 scoreTally = scoreTally + 1
-%             end
-%         end
-%              
+             elseif trialType == 2 || trialType == 3
+                 scoreTally = scoreTally + 0;
+             end
+              Implicitscore = scoreTally/(trialNum + 1);
+         elseif keyCode (lKey)
+                rt = secs - onsetTime
+             if trialType == 1
+                 scoreTally = scoreTally + 0;
+             elseif trialType == 2 || trialType == 3
+                scoreTally = scoreTally + 1;
+             end
+
+    end
+end
+
+ trialNum = trialNum + 1;
+
+
+
+
+        % if nonmatch trial types (2 and 4) are presented and the n key is
+        % pressed, the answer is correct and scoreTally in increased by 1
+        
+  
 
        
 
         %Move to the next trial
-        Implicitscore = scoreTally/(3);
-        trialNum = trialNum + 1
+               
+
+%         Implicitscore = scoreTally/(trialNum + 1);
     end
 end
-RTdisp = num2str(pause_rt*100)
-WaitSecs(0.2);
-DrawFormattedText(window, [strcat('Your RT is:','  ', RTdisp, '%. \n\n Press any key to continue.')],...
-    'center', 'center', black);
-Screen('Flip', window);
-KbStrokeWait
+
+
+
+% DrawFormattedText(window, [strcat('Your Score is:','  ', Implicitscore, ' \n\n Press any key to exit. Thanks for playing!')],...
+%     'center', 'center', black);
+% Screen('Flip', window);
+% KbStrokeWait
+
+% DrawFormattedText(window, [strcat('Your Score is:','  ', RTdisp, ' \n\n Press any key to exit. Thanks for playing!')],...
+%     'center', 'center', black);
+% Screen('Flip', window);
+% KbStrokeWait;
+
 sca;
 
 % 
