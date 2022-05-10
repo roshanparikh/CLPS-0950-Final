@@ -133,7 +133,7 @@ while KbCheck == 0
         strooplevel3;
         strooplevel4;
     elseif insideL == 1 && sum(buttons) > 0
-        ImplicitWord1;
+        implicitpretest;
     elseif insideM == 1 && sum(buttons) > 0
         workingmemory1;
     end

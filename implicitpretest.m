@@ -71,9 +71,9 @@ Screen('Flip', window);
 KbStrokeWait;
 
 
-DrawFormattedText(window, ['In this task, you will be repeatedly presented with words  \n\n ' ...
-    'The word will either represent \n\n an edible object, or an inedible one \n\n When the word appears, press: \n\n the l key if the item is edible,\n\n and the k key if not. \n\n ' ...
-    'Press the l key TWICE to begin!'],...
+DrawFormattedText(window, ['In this task, you will be repeatedly \n presented with words  \n\n ' ...
+    'The word will either represent \n\n an edible object, or an inedible one \n\n When the word appears, press: \n\n the K key if the item is edible,\n\n and the L key if it is inedible. \n\n ' ...
+    'Press the L key TWICE to begin!'],...
     'center', 'center', black);
 Screen('Flip', window);
 KbStrokeWait;
@@ -153,7 +153,7 @@ run("combinedprimedwords.m")
 randompretest = randperm(3)
 combinedprime
 %15 trials, can move between them with a key press
-while trialNum < 3
+while trialNum < 4
     [keyIsDown,secs, keyCode] = KbCheck;
     if keyCode(escapeKey)
         ShowCursor;
@@ -169,7 +169,7 @@ while trialNum < 3
             %trialType 2: red channel value is changed by slider, final squares cannot match
             %trialType 3: green channel value is changed by sider, final squares can match
             %trialType 4: green channel value is changed by slider, final squares cannot match
-            randompretest([trialNum])
+            trialType = randompretest([trialNum]);
         
         % Flip to the screen
         Screen('Flip', window);
