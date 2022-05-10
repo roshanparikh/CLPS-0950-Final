@@ -489,3 +489,5 @@ end
 KbStrokeWait;
 % Clear the screen
 sca;
+
+run('intro_screen.m')

@@ -307,7 +307,7 @@ Screen('Flip', window);
 KbStrokeWait;
 
 %Display Stroop test 4 score (out of 100); present screen for next level
-DrawFormattedText(window, strcat('Your score was:', scoreDisp,  '%! \n Up next is Level 2! \n Click anywhere when you are ready to go on! '),'center','center',black);
+DrawFormattedText(window, strcat('Your score was:', scoreDisp,  '%! \n Up next is Level 3! \n Click anywhere when you are ready to go on! '),'center','center',black);
 Screen('Flip', window);
 KbStrokeWait;
 
