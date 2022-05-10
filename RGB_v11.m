@@ -484,6 +484,7 @@ if RGBscore < 0.25
     DrawFormattedText(window, 'You might be color blind! \n\n Just kidding lol we are not medical professionals \n\n ',...
     'center', 'center', black);
     Screen('Flip', window);
+end
 
 KbStrokeWait;
 % Clear the screen
