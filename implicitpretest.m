@@ -147,13 +147,9 @@ condMatrixShuffled = condMatrix(:, shuffler);
 %     outputScramble = randomizeStr(inputScramble);
 %     scrambledWords{1,i} = outputScramble;
 % end   
-trialNum = 1;
-scoreTally = 0;
-run("combinedprimedwords.m")
-randompretest = randperm(3)
-combinedprime
+trialNum = 0;
 %15 trials, can move between them with a key press
-while trialNum < 3
+while trialNum < 25
     [keyIsDown,secs, keyCode] = KbCheck;
     if keyCode(escapeKey)
         ShowCursor;
@@ -169,7 +165,7 @@ while trialNum < 3
             %trialType 2: red channel value is changed by slider, final squares cannot match
             %trialType 3: green channel value is changed by sider, final squares can match
             %trialType 4: green channel value is changed by slider, final squares cannot match
-            randompretest([trialNum])
+            trialType = randi(2,1)
         
         % Flip to the screen
         Screen('Flip', window);
