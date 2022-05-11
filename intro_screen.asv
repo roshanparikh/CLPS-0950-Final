@@ -113,30 +113,28 @@ DrawFormattedText(window, ['Linguistics'], squareXpos(3) - corrector, squareYpos
 %Working Memory
 DrawFormattedText(window, ['Working\nMemory'], squareXpos(4) - corrector, squareYpos(4)- corrector, white);
 
-% Get the current position of the mouse
-
-% See if the mouse cursor is inside rgbRectthe square
-insideR = IsInRect(mx, my, rgbRect);
-insideS = IsInRect(mx,my, stroopRect);
-insideL = IsInRect(mx, my, wordRect);
-insideM = IsInRect(mx, my, memRect);
-
 % Flip to the screen
 Screen('Flip', window);
 while KbCheck == 0
-    if insideR == 1 && buttons == 1;
-        i = 1
+    % Get the current position of the mouse
+    [mx, my, buttons] = GetMouse(window);
+
+    % See if the mouse cursor is inside rgbRectthe square
+    insideR = IsInRect(mx, my, rgbRect);
+    insideS = IsInRect(mx,my, stroopRect);
+    insideL = IsInRect(mx, my, wordRect);
+    insideM = IsInRect(mx, my, memRect);
+
+    if insideR == 1 && sum(buttons) > 0
         RGB_v11;
     elseif insideS == 1 && sum(buttons) > 0
-        i = 2
         strooplevel1;
         strooplevel2;
         strooplevel3;
         strooplevel4;
-    %elseif insideL == 1 && sum(buttons) > 0
-    
+    elseif insideL == 1 && sum(buttons) > 0
+        implicitpretest;
     elseif insideM == 1 && sum(buttons) > 0
-        i = 4
         workingmemory1;
     end
 end

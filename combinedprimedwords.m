@@ -27,3 +27,7 @@ combinedprime{1,24} = ['t' 'o' 'm' 'a' 't' 'o'];
 combinedprime{1,25} = ['c' 'a' 'p' 's' 'i' 'c' 'u' 'm'];
 
 combinedprimeshuffled = combinedprime(randperm(numel(combinedprime)));
+for i = 1:randi(25,1)
+    allprimedWords = char(combinedprimeshuffled(1,i));
+end
+disp(allprimedWords)

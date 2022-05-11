@@ -76,7 +76,7 @@ KbStrokeWait;
 
 
 DrawFormattedText(window, ['In this task, you will be presnted with a string of letters \n\n ' ...
-    'The letters will either make \n\n a word or a non-word \n\n When the letters appear, press: \n\n the K key if the letters are not a word, \n\n and press the L key if they do form a word. \n\n ' ...
+    'The letters will either make \n\n a word or a non-word \n\n When the letters appear, press: \n\n the K key if the letters DO form a word, \n\n and press the L key if they do NOT form a word. \n\n ' ...
     'Press the L key to begin!'],...
     'center', 'center', black);
 Screen('Flip', window);
@@ -190,7 +190,6 @@ while trialNum < 12
                  Screen('Flip', window);
                 
                
-
             elseif trialType == 9 || trialType == 10 || trialType == 11 || trialType == 12
                 run("combinedprimedwords.m")
                 Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
@@ -203,7 +202,7 @@ while trialNum < 12
             
 onsetTime = GetSecs;
 
-while (GetSecs - onsetTime) < 1.0
+while (GetSecs - onsetTime) < 2.0
 [keyIsDown,secs,keyCode] = PsychHID('KbCheck');
     if keyCode(lKey)
         KbReleaseWait;
@@ -259,13 +258,13 @@ rtNonword = mean(rtTracker1);
 % KbStrokeWait
 
 Screen('TextSize', window, 20);
-DrawFormattedText(window, ['congrats on completing the tests! \n\n This was actually an implicit word test, \n\n which measured your ability to recall and respond to the words you viewed in the previous task,\n\n versus some new words added for this task, and some scrambled words. \n\n In theory, participants respond the fastest to previously shown words,\n\n and the slowest to scrambled words - but of course, everyone has a different experience.' '\n\n Press any key to see your reaction times. Thanks for playing!'],...
+DrawFormattedText(window, ['Congrats on completing the tests! \n\n This was actually an implicit word test, \n\n which measured your ability to recall and respond to the words you viewed in the previous task,\n\n versus some new words added for this task, and some scrambled words. \n\n In theory, participants respond the fastest to previously shown words,\n\n and the slowest to scrambled words - but of course, everyone has a different experience.' '\n\n Press any key to see your reaction times. Thanks for playing!'],...
      'center', 'center', black);
  Screen('Flip', window);
  KbStrokeWait;
 
 
- Screen('TextSize', window, 40);
+ Screen('TextSize', window, 35);
  DrawFormattedText(window, [strcat('Your average reaction time for all trials is:','  ', num2str(rtFinal), 's',  ' \n\n Your reaction time for previously seen words is:','   ', num2str(rtPrimed), 's', '\n\n Your reaction time for new words is:','   ', num2str(rtWord), 's', '\n\n Your reaction time for scrambled words is:','   ',num2str(rtNonword), 's', '\n\n Press any key to exit. Thanks for playing!')],...
      'center', 'center', black);
  Screen('Flip', window); 

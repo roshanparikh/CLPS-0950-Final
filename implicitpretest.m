@@ -41,7 +41,7 @@ Screen('Flip', window);
 ifi = Screen('GetFlipInterval', window);
 
 % Set text size to 40 
-Screen('TextSize', window, 40);
+Screen('TextSize', window, 25);
 
 % Query the maximum priority level
 topPriorityLevel = MaxPriority(window);
@@ -71,8 +71,8 @@ Screen('Flip', window);
 KbStrokeWait;
 
 
-DrawFormattedText(window, ['In this task, you will be repeatedly \n presented with words  \n\n ' ...
-    'The word will either represent \n\n an edible object, or an inedible one \n\n When the word appears, press: \n\n the K key if the item is edible,\n\n and the L key if it is inedible. \n\n ' ...
+DrawFormattedText(window, ['In this task, you will be presented with 25 words.  \n\n ' ...
+    'The word will either represent an edible object, or an inedible one. \n\n When the word appears, press: \n\n the K key if the item is edible,\n\n and the L key if it is inedible. \n\n ' ...
     'Press the L key TWICE to begin!'],...
     'center', 'center', black);
 Screen('Flip', window);
@@ -149,7 +149,7 @@ condMatrixShuffled = condMatrix(:, shuffler);
 % end   
 trialNum = 1;
 randompretest = randperm(25)
-
+Screen('TextSize', window, 40);
 
 %15 trials, can move between them with a key press
 while trialNum < 25
@@ -161,14 +161,14 @@ while trialNum < 25
         %if the nonmatch (n) or match (right arrow) key pressed, progress
         %to next trial
     elseif keyCode(kKey) || keyCode(lKey)
-        
+            run("combinedprimedwords.m")
         %Generate random Red and Green values between 50 and 220 on RGB
         %Create variable to randomize the trialType
             %trialType 1: red channel value is changed by slider, final squares can match
             %trialType 2: red channel value is changed by slider, final squares cannot match
             %trialType 3: green channel value is changed by sider, final squares can match
             %trialType 4: green channel value is changed by slider, final squares cannot match
-            trialType = randompretest([trialNum]);
+
 
         
         % Flip to the screen
@@ -191,24 +191,27 @@ while trialNum < 25
 %                  Screen('Flip', window);
 %             
 %             end
-for trialType = 1:25
-    run("combinedprimedwords.m")
+for trialNum = 1:25
      Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
                 Screen('Flip', window);
                 WaitSecs(rand + rand + rand);
-                DrawFormattedText (window, (char((combinedprimeshuffled(trialType)))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
+                DrawFormattedText (window, (char((combinedprimeshuffled(trialNum)))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
                  Screen('Flip', window);
                  KbStrokeWait;
+                 trialNum = trialNum + 1
 end
        
 
         %Move to the next trial
-        trialNum = trialNum + 1
+
         end
 end
-% WaitSecs(0.2);
+if trialNum == 26
+ WaitSecs(0.2);
  DrawFormattedText(window, [strcat('Great job! We will now continue to the second portion of the task \n\n Press any key to continue.')],...
-%     'center', 'center', black);
+     'center', 'center', black);
+Screen('Flip', window);
+end
 KbStrokeWait
 sca;
 run ImplicitWord1.m
