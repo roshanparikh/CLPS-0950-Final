@@ -14,7 +14,7 @@ edibleWords{1,11} = ['s' 'o' 'u' 'p'];
 edibleWords{1,12} = ['t' 'o' 'm' 'a' 't' 'o'];
 edibleWords{1,13} = ['c' 'a' 'p' 's' 'i' 'c' 'u' 'm'];
 
-for i = 1:randperm(13,1)
+for i = 1:randi(13,1)
     edible = char((edibleWords(1,i)));
 end
 disp(edible)

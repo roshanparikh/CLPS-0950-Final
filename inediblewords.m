@@ -13,6 +13,8 @@ inedibleWords{1,11} = ['c' 'o' 'm' 'p' 'u' 't' 'e' 'r'];
 inedibleWords{1,12} = ['d' 'u' 'm' 'b' 'e' 'l' 'l'];
 
 for i = 1:randi(12,1)
-    inedible = char(inedibleWords(1,i));
+    inedible = char((inedibleWords(1,i)));
 end
 disp(inedible)
+
+
