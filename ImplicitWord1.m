@@ -199,6 +199,8 @@ while trialNum < 12
                 DrawFormattedText (window, (char((allprimedWords))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
                  Screen('Flip', window);
             end
+
+            
 onsetTime = GetSecs;
 
 while (GetSecs - onsetTime) < 1.0

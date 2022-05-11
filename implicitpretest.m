@@ -148,12 +148,11 @@ condMatrixShuffled = condMatrix(:, shuffler);
 %     scrambledWords{1,i} = outputScramble;
 % end   
 trialNum = 1;
-scoreTally = 0;
-run("combinedprimedwords.m")
-randompretest = randperm(3)
-combinedprime
+randompretest = randperm(25)
+
+
 %15 trials, can move between them with a key press
-while trialNum < 4
+while trialNum < 25
     [keyIsDown,secs, keyCode] = KbCheck;
     if keyCode(escapeKey)
         ShowCursor;
@@ -170,28 +169,37 @@ while trialNum < 4
             %trialType 3: green channel value is changed by sider, final squares can match
             %trialType 4: green channel value is changed by slider, final squares cannot match
             trialType = randompretest([trialNum]);
+
         
         % Flip to the screen
         Screen('Flip', window);
-            if trialType == 1 %slider should only change r_given_exp
-                run("inediblewords.m")
-                Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
-                Screen('Flip', window);
-                WaitSecs(rand + rand + rand)
-                 DrawFormattedText (window, (char((inedible))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
-                Screen('Flip', window);
-                
-            
-            elseif trialType == 2
-                run("ediblewords.m")
-                Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
+%             if trialType == 6 || trialType == 7 ||trialType == 8 || trialType == 9 ||trialType == 10 ||trialType == 11 ||trialType == 12 ||trialType == 1 ||trialType == 2 ||trialType == 3 ||trialType == 4 ||trialType == 5
+%                 run("inediblewords.m")
+%                 Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
+%                 Screen('Flip', window);
+%                 WaitSecs(rand + rand + rand)
+%                  DrawFormattedText (window, (char((inedible))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
+%                 Screen('Flip', window);
+%                 
+%             
+%             elseif trialType == 13 || trialType == 14 ||trialType == 15 ||trialType == 16 ||trialType == 17 ||trialType == 18 ||trialType == 19 ||trialType == 20 ||trialType == 21 ||trialType == 22 ||trialType == 23 ||trialType == 24 ||trialType == 25
+%                 run("ediblewords.m")
+%                 Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
+%                 Screen('Flip', window);
+%                 WaitSecs(rand + rand + rand);
+%                 DrawFormattedText (window, (char((edible))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
+%                  Screen('Flip', window);
+%             
+%             end
+for trialType = 1:25
+    run("combinedprimedwords.m")
+     Screen('DrawDots', window, [xCenter yCenter], 10, black, [], 2);
                 Screen('Flip', window);
                 WaitSecs(rand + rand + rand);
-                DrawFormattedText (window, (char((edible))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
+                DrawFormattedText (window, (char((combinedprimeshuffled(trialType)))), ((rand + 0.5) * xCenter), ((rand+0.5)*yCenter), [1 0 0]);
                  Screen('Flip', window);
-            
-            end
-
+                 KbStrokeWait;
+end
        
 
         %Move to the next trial
@@ -199,7 +207,7 @@ while trialNum < 4
         end
 end
 % WaitSecs(0.2);
-% DrawFormattedText(window, [strcat('Your score is: ','  ', num2str(scoreTally), '%. \n\n Press any key to continue.')],...
+ DrawFormattedText(window, [strcat('Great job! We will now continue to the second portion of the task \n\n Press any key to continue.')],...
 %     'center', 'center', black);
 KbStrokeWait
 sca;
