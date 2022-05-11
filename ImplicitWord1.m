@@ -74,10 +74,10 @@ DrawFormattedText(window, ['Congrats on completing the first portion of the task
 Screen('Flip', window);
 KbStrokeWait;
 
-
-DrawFormattedText(window, ['In this task, you will be presnted with a string of letters \n\n ' ...
-    'The letters will either make \n\n a word or a non-word \n\n When the letters appear, press: \n\n the K key if the letters DO form a word, \n\n and press the L key if they do NOT form a word. \n\n ' ...
-    'Press the L key to begin!'],...
+Screen('TextSize', window, 25);
+DrawFormattedText(window, ['In this task, you will be presented with a string of letters. \n\n ' ...
+    'The letters will either make a word or a non-word. \n\n When the letters appear, press: \n\n the K key if the letters DO form a word, \n\n and press the L key if they do NOT form a word. \n\n ' ...
+    '\n\n *Work as quickly as you can - if nothing is pressed in 1.5 seconds, the trial will be skipped! \n\n Press the L key to begin!'],...
     'center', 'center', black);
 Screen('Flip', window);
 KbStrokeWait;
@@ -158,7 +158,7 @@ rtTracker1 = [0]; rtTracker2 = [0]; rtTracker3 = [0];
 rtTrackerTot = [0 0 0 0 0 0 0 0 0 0 0 0];
 randomorder = randperm(12);
 %15 trials, can move between them with a key press
-
+Screen('TextSize', window, 40);
 while trialNum < 12
     [keyIsDown,secs, keyCode] = KbCheck;
     if keyCode(escapeKey)
@@ -201,8 +201,8 @@ while trialNum < 12
 
             
 onsetTime = GetSecs;
-
-while (GetSecs - onsetTime) < 2.0
+rt =  1.5;
+while (GetSecs - onsetTime) < 1.5
 [keyIsDown,secs,keyCode] = PsychHID('KbCheck');
     if keyCode(lKey)
         KbReleaseWait;
@@ -212,11 +212,12 @@ while (GetSecs - onsetTime) < 2.0
      elseif keyCode(kKey)
          KbReleaseWait;
         rt = secs - onsetTime
+     
         end
          end
  
 
-    if trialType ==1|| trialType == 2 || trialType == 3 || trialType == 4
+    if trialType == 1|| trialType == 2 || trialType == 3 || trialType == 4
         rtTracker1(tracker1) = rt;
         tracker1 = tracker1 + 1;
     elseif trialType == 5 || trialType == 6 || trialType == 7 || trialType == 8 
