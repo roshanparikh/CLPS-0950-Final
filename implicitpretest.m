@@ -205,9 +205,9 @@ end
         trialNum = trialNum + 1
         end
 end
-% WaitSecs(0.2);
+ WaitSecs(0.2);
  DrawFormattedText(window, [strcat('Great job! We will now continue to the second portion of the task \n\n Press any key to continue.')],...
-%     'center', 'center', black);
+     'center', 'center', black);
 KbStrokeWait
 sca;
 run ImplicitWord1.m
