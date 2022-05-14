@@ -1,4 +1,5 @@
 
+
 % Clear the workspace and the screen
 sca;
 close all;
@@ -180,11 +181,12 @@ rt =  1.5;
 while (GetSecs - onsetTime) < 1.5
 [keyIsDown,secs,keyCode] = PsychHID('KbCheck');
 % if k or l key is pressed, wait until the key is released and then
-% calculate reaction by subtracting the current time from the onset time
-% at the beginning of each trial
+% calculate reaction by subt
     if keyCode(lKey)
         KbReleaseWait;
         rt = secs - onsetTime
+        % if match trial types (1 and 3) are presented and the n key is
+        % pressed, the answer is incorrect and scoreTally remains the same
      elseif keyCode(kKey)
          KbReleaseWait;
         rt = secs - onsetTime
@@ -192,42 +194,55 @@ while (GetSecs - onsetTime) < 1.5
         end
          end
  
-% if the trial belonged to the first 4 trialTypes, add the reaction time to
-% the first vector array, tracker1
+
     if trialType == 1|| trialType == 2 || trialType == 3 || trialType == 4
         rtTracker1(tracker1) = rt;
         tracker1 = tracker1 + 1;
-% if the trial belonged to the next 4 trialTypes, add the reaction time to
-% the second vector array, tracker2
     elseif trialType == 5 || trialType == 6 || trialType == 7 || trialType == 8 
         rtTracker2(tracker2) = rt;
         tracker2 = tracker2 + 1;
-% if the trial belonged to the last 4 trialTypes, add the reaction time to
-% the third vector array, tracker3
     elseif trialType == 9 || trialType == 10 || trialType == 11 || trialType == 12
         rtTracker3(tracker3) = rt;
         tracker3 = tracker3 + 1;
     end
+
+rtTrackerTot(trialNum) = rt;
    end
 
 end
 
-% calculate the mean reaction times for each trial condition, and the
-% reaction time for all trials by taking the mean reaction time across all
-% 3 conditions
+
+
+        % if nonmatch trial types (2 and 4) are presented and the n key is
+        % pressed, the answer is correct and scoreTally in increased by 1
+        
+  
+
+       
+
+        %Move to the next trial
+               
+
+%         Implicitscore = scoreTally/(trialNum + 1);
+
+
+rtFinal = (rtWord+rtPrimed+rtNonword)/3;
 rtWord = mean(rtTracker2);
 rtPrimed = mean(rtTracker3);
 rtNonword = mean(rtTracker1);
-rtFinal = (rtWord+rtPrimed+rtNonword)/3;
 
-% display debrief screen explaining the true goal of the task
+% DrawFormattedText(window, [strcat('Your Score is:','  ', Implicitscore, ' \n\n Press any key to exit. Thanks for playing!')],...
+%     'center', 'center', black);
+% Screen('Flip', window);
+% KbStrokeWait
+
 Screen('TextSize', window, 18);
 DrawFormattedText(window, ['Congrats on completing the tests! \n\n This was actually an implicit word test, \n\n which measured your ability to recall and respond to the words you viewed in the previous task (known as primed words),\n\n versus some new words you had not seen before, and some scrambled words. \n\n In theory, participants respond the fastest to primed words,\n\n and the slowest to scrambled words - but of course, everyone has a different experience.' '\n\n Press any key to see your reaction times. Thanks for playing!'],...
      'center', 'center', black);
  Screen('Flip', window);
  KbStrokeWait;
 
-% displays reaction times, both in total and organized by trial condition
+
  Screen('TextSize', window, 30);
  DrawFormattedText(window, [strcat('Your average reaction time for all trials is:','  ', num2str(rtFinal), 's',  ' \n\n Your reaction time for previously seen (primed) words is:','   ', num2str(rtPrimed), 's', '\n\n Your reaction time for new words is:','   ', num2str(rtWord), 's', '\n\n Your reaction time for scrambled words is:','   ',num2str(rtNonword), 's', '\n\n Press any key to exit. Thanks for playing!')],...
      'center', 'center', black);

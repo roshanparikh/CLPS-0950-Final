@@ -59,20 +59,18 @@ Screen('BlendFunction', window, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 %----------------------------------------------------------------------
 %                       Keyboard Presses
 %----------------------------------------------------------------------
-% k and l will be used to indicate the word respresenting an edible (k) or
-% inedible (l) object
+
 kKey = KbName('k');
 escapeKey = KbName('ESCAPE');
 lKey = KbName('l');
 
-% intro display screen
 DrawFormattedText(window, ['Welcome to the Cognitive Linguistics Test! \n\n ' ...
     'Press any key to see instructions!'],...
     'center', 'center', black);
 Screen('Flip', window);
 KbStrokeWait;
 
-% instructions screen
+
 DrawFormattedText(window, ['In this task, you will be presented with 25 words.  \n\n ' ...
     'The word will either represent an edible object, or an inedible one. \n\n When the word appears, press: \n\n the K key if the item is edible,\n\n and the L key if it is inedible. \n\n ' ...
     'Press the L key TWICE to begin!'],...
@@ -93,27 +91,32 @@ isiTimeFrames = round(isiTimeSecs / ifi);
 waitframes = 1;
 
 
-% Set the color of our fixation dot to black
+% Set the color of our dot to full red. Color is defined by red green
+% and blue components (RGB). So we have three numbers which
+% define our RGB values. The maximum number for each is 1 and the minimum
+% 0. So, "full red" is [1 0 0]. "Full green" [0 1 0] and "full blue" [0 0
+% 1]. Play around with these numbers and see the result.
 dotColor = [0 0 0];
 
-% set position of fixation dot to center of the screen
+% Determine a random X and Y position for our dot. NOTE: As dot position is
+% randomised each time you run the reenript the output picture will show the
+% dot in a different position. Similarly, when you run the script the
+% position of the dot will be randomised each time. NOTE also, that if the
+% dot is drawn at the edge of the screen some of it might not be visible.
 dotXpos = xCenter
 dotYpos = yCenter
 % Dot size in pixels
 dotSizePix = 10;
-
+scrambledWords = cell(1,25);
 
 trialNum = 1;
-% randomly permuted matrix, ensures that a new word from the list is
-% presented each trial (no repeats)
 randompretest = randperm(25)
 Screen('TextSize', window, 40);
 
 % run pre-survey word list
 run("combinedprimedwords.m")
-%2 5 trials, can move between them with a key press
+%25 trials, can move between them with a key press
 while trialNum < 25
-    % check for key press
     [keyIsDown,secs, keyCode] = KbCheck;
     if keyCode(escapeKey)
         ShowCursor;
