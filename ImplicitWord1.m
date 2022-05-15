@@ -235,6 +235,7 @@ DrawFormattedText(window, ['Congrats on completing the tests! \n\n This was actu
  KbStrokeWait;
 
 sca;
+run('intro_screen.m')
 
 
 
