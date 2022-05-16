@@ -149,7 +149,7 @@ end
 % second part of the task
 if trialNum == 26
  WaitSecs(0.2);
- Screen('TextSize', window, 30);
+ Screen('TextSize', window, 20);
  DrawFormattedText(window, [strcat('Great job! We will now continue to the second portion of the task \n\n Press any key to continue.')],...
      'center', 'center', black);
 Screen('Flip', window);
